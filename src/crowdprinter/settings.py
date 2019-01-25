@@ -141,3 +141,4 @@ STATIC_URL = '/static/'
 
 # various django settings
 SITE_ID = 1  # needed by allauth
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
