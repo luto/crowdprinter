@@ -1,0 +1,20 @@
+# crowdprinter
+
+1. have 100s of STLs to be printed
+2. have 20s of people with printers
+3. people log into crowdprinter
+4. people download 1-3 STLs
+5. people report success
+
+## Setup
+
+```
+virtualenv env --python python3.6
+pip install -r src/requirements.txt
+cd src
+./manage.py migrate
+./manage.py createsuperuser
+./manage.py runserver
+```
+
+visit http://127.0.0.1:8000/ :)
