@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'crowdprinter',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
