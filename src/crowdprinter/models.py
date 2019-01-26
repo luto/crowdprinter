@@ -7,6 +7,10 @@ class PrintJob(models.Model):
     stl = models.FileField()
     render = models.FileField(null=True)
 
+    @property
+    def latest_attempt(self):
+        return self.attempts.order_by('started').get()
+
 
 class PrintAttempt(models.Model):
     job = models.ForeignKey('PrintJob', on_delete=models.CASCADE, related_name='attempts')

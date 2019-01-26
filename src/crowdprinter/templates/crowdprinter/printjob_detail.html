@@ -2,5 +2,20 @@
 
 {% block content %}
 <h1>PrintJob {{ object.slug }}</h1>
-<img src="{% url 'printfile_render' slug=object.slug %}">
+<div class="printfiledetail grid-x grid-margin-x">
+    <div class="cell small-12 medium-3">
+        <img src="{% url 'printfile_render' slug=object.slug %}">
+    </div>
+    <div class="cell auto">
+        {% if object.latest_attempt %}
+        Attempt: {{ object.latest_attempt }}
+        {% else %}
+        No attempt running.<br>
+        <form action="{% url 'printjob_take' slug=object.slug %}" method="POST">
+            {% csrf_token %}
+            <button class="button success large" type="submit">Take</a>
+        </form>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

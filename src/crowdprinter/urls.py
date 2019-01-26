@@ -26,5 +26,6 @@ urlpatterns = [
         path('', PrintJobDetailView.as_view(), name='printfile_detail'),
         path('stl', ServeStlView.as_view(), name='printfile_stl'),
         path('render', ServeRenderView.as_view(), name='printfile_render'),
+        path('take', take_print_job, name='printjob_take'),
     ]))
 ]

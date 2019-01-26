@@ -1,8 +1,10 @@
-from django.views.generic.base import View
+from django.contrib.auth.decorators import login_required
+from django.views.generic.base import View, TemplateView
 from django.views.generic import DetailView, ListView
 import crowdprinter.models as models
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
+from django.urls import reverse
 import os.path
 
 
@@ -12,6 +14,19 @@ class PrintJobListView(ListView):
 
 class PrintJobDetailView(DetailView):
     model = models.PrintJob
+
+
+@login_required
+def take_print_job(request, slug):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+    models.PrintAttempt.objects.create(
+        job=get_object_or_404(models.PrintJob, slug=slug),
+        user=request.user,
+    )
+
+    return HttpResponseRedirect(reverse('printfile_detail', kwargs={'slug': slug}))
 
 
 class ServeFileView(View):
