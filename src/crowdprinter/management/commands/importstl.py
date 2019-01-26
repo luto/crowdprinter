@@ -4,6 +4,7 @@ import os.path
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files.base import ContentFile, File
 from django.core.files.storage import default_storage
+from django.utils.text import slugify
 
 import crowdprinter.models as models
 
@@ -24,7 +25,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        slug = options['slug']
+        slug = slugify(options['slug'])
 
         f = models.PrintJob(slug=slug)
         f.stl.save(*self._save_file(options['stl_file'], slug, 'stl'))
