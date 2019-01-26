@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--slug', type=str, required=True)
         parser.add_argument('--stl-file', type=argparse.FileType(mode='br'), required=True)
-        parser.add_argument('--render-file', type=argparse.FileType(mode='br'))
+        parser.add_argument('--render-file', type=argparse.FileType(mode='br'), required=True)
 
     def _save_file(self, f, slug, extension):
         path = default_storage.get_available_name(f'{slug}.{extension}')
@@ -28,9 +28,5 @@ class Command(BaseCommand):
 
         f = models.PrintFile(slug=slug)
         f.stl.save(*self._save_file(options['stl_file'], slug, 'stl'))
-        if options['render_file']:
-            f.render.save(*self._save_file(
-                options['render_file'],
-                slug,
-                os.path.splitext(options['render_file'].name)[1]
-            ))
+        render_ext = os.path.splitext(options['render_file'].name)[1]
+        f.render.save(*self._save_file(options['render_file'], slug, render_ext))

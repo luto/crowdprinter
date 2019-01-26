@@ -5,7 +5,7 @@ from django.conf import settings
 class PrintFile(models.Model):
     slug = models.SlugField(primary_key=True)
     stl = models.FileField()
-    render = models.FileField(null=True, blank=True)
+    render = models.FileField(null=True)
 
 
 class PrintAttempt(models.Model):
