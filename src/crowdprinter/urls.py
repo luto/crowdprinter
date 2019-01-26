@@ -23,6 +23,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', PrintJobListView.as_view()),
     path('printfile/<slug>/', include([
+        path('', PrintJobDetailView.as_view(), name='printfile_detail'),
         path('stl', ServeStlView.as_view(), name='printfile_stl'),
         path('render', ServeRenderView.as_view(), name='printfile_render'),
     ]))

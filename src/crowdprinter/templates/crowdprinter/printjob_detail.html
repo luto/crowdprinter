@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>PrintJob {{ object.slug }}</h1>
+<img src="{% url 'printfile_render' slug=object.slug %}">
+{% endblock %}

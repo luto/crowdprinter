@@ -1,5 +1,5 @@
 from django.views.generic.base import View
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 import crowdprinter.models as models
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
@@ -7,6 +7,10 @@ import os.path
 
 
 class PrintJobListView(ListView):
+    model = models.PrintJob
+
+
+class PrintJobDetailView(DetailView):
     model = models.PrintJob
 
 
