@@ -35,3 +35,14 @@ class ServeStlView(ServeFileView):
 
     def get_download_file_name(self, **kwargs):
         return f'eh19_{kwargs["slug"]}.stl'
+
+
+class ServeRenderView(ServeFileView):
+    def get_file_path(self, **kwargs):
+        printfile = get_object_or_404(models.PrintFile, slug=kwargs['slug'])
+        return printfile.render.path
+
+    def get_download_file_name(self, **kwargs):
+        printfile = get_object_or_404(models.PrintFile, slug=kwargs['slug'])
+        ext = os.path.splitext(printfile.render.path)[1]
+        return f'eh19_{kwargs["slug"]}.{ext}'

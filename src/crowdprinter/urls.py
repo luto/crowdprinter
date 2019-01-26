@@ -24,5 +24,6 @@ urlpatterns = [
     path('', IndexView.as_view()),
     path('printfile/<slug>/', include([
         path('stl', ServeStlView.as_view(), name='printfile_stl'),
+        path('render', ServeRenderView.as_view(), name='printfile_render'),
     ]))
 ]
