@@ -12,7 +12,7 @@ class IndexView(TemplateView):
 class ServeFileView(View):
 
     def get(self, *args, **kwargs):
-        with open(self.get_file_path(**kwargs)) as f:
+        with open(self.get_file_path(**kwargs), mode='rb') as f:
             response = HttpResponse(
                 f.read(),
                 content_type='application/force-download',
