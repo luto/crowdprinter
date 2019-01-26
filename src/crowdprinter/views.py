@@ -26,7 +26,7 @@ def take_print_job(request, slug):
         user=request.user,
     )
 
-    return HttpResponseRedirect(reverse('printfile_detail', kwargs={'slug': slug}))
+    return HttpResponseRedirect(reverse('printjob_detail', kwargs={'slug': slug}))
 
 
 class ServeFileView(View):
@@ -50,8 +50,8 @@ class ServeFileView(View):
 
 class ServeStlView(ServeFileView):
     def get_file_path(self, **kwargs):
-        printfile = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
-        return printfile.stl.path
+        printjob = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
+        return printjob.stl.path
 
     def get_download_file_name(self, **kwargs):
         return f'eh19_{kwargs["slug"]}.stl'
@@ -59,10 +59,10 @@ class ServeStlView(ServeFileView):
 
 class ServeRenderView(ServeFileView):
     def get_file_path(self, **kwargs):
-        printfile = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
-        return printfile.render.path
+        printjob = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
+        return printjob.render.path
 
     def get_download_file_name(self, **kwargs):
-        printfile = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
-        ext = os.path.splitext(printfile.render.path)[1]
+        printjob = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
+        ext = os.path.splitext(printjob.render.path)[1]
         return f'eh19_{kwargs["slug"]}.{ext}'

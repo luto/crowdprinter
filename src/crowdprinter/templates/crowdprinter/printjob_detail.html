@@ -2,9 +2,9 @@
 
 {% block content %}
 <h1>PrintJob {{ object.slug }}</h1>
-<div class="printfiledetail grid-x grid-margin-x">
+<div class="printjobdetail grid-x grid-margin-x">
     <div class="cell small-12 medium-3">
-        <img src="{% url 'printfile_render' slug=object.slug %}">
+        <img src="{% url 'printjob_render' slug=object.slug %}">
     </div>
     <div class="cell auto">
         {% if object.latest_attempt %}

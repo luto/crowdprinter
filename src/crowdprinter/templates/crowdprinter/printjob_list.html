@@ -2,12 +2,12 @@
 
 {% block content %}
 <h1>PrintJobs</h1>
-<div class="printfilelist grid-x grid-margin-x">
+<div class="printjoblist grid-x grid-margin-x">
 {% for pfile in object_list %}
 <div class="cell small-6 large-2">
     <h2>{{ pfile.slug }}</h2>
-    <a href="{% url 'printfile_detail' slug=pfile.slug %}">
-        <img src="{% url 'printfile_render' slug=pfile.slug %}">
+    <a href="{% url 'printjob_detail' slug=pfile.slug %}">
+        <img src="{% url 'printjob_render' slug=pfile.slug %}">
     </a>
 </div>
 {% endfor %}
