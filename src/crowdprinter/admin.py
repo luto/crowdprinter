@@ -4,6 +4,14 @@ from .models import PrintJob, PrintAttempt
 
 class PrintAttemptInline(admin.TabularInline):
     model = PrintAttempt
+    readonly_fields = (
+        'started',
+    )
+    fields = (
+        'user',
+        'started',
+        'finished',
+    )
 
 
 @admin.register(PrintJob)
