@@ -1,9 +1,99 @@
 .printjoblist img {
-    height: 10rem;
-    width: 10rem;
+    height: 30vh;
+    width: 100%;
+}
+
+.printjoblist div:nth-child(5n) img {
+    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-50deg) saturate(700%) contrast(1);
+}
+
+.printjoblist div:nth-child(5n+1) img {
+    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-80deg) saturate(700%) contrast(1);
+}
+
+.printjoblist div:nth-child(5n+2) img {
+    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-120deg) saturate(700%) contrast(1);
+}
+
+.printjoblist div:nth-child(5n+3) img {
+    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-150deg) saturate(700%) contrast(1);
+}
+
+.printjoblist div:nth-child(5n+4) img {
+    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-190deg) saturate(700%) contrast(1);
 }
 
 .printjobdetail img {
     height: 15rem;
     width: 15rem;
+}
+
+.hero {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    top: 30%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.hero span {
+    background-color: black;
+}
+
+.hero > span:last-of-type {
+    margin-top: 1rem;
+}
+
+@media only screen and (min-width : 600px) {
+    .hero {
+        left: 5vw;
+    }
+
+    .hero > div > span:last-of-type {
+        margin-left: 15vw;
+    }
+
+    .hero > span:last-of-type {
+        margin-left: 40vw;
+        display: inline-block;
+    }
+
+    .hero span {
+        padding: 1rem;
+    }
+}
+
+@media only screen and (min-width : 600px) {
+    .hero > div {
+        font-size: 2rem;
+    }
+
+    .hero > span:last-of-type {
+        font-size: 0.9rem;
+        margin-left: 30vw;
+    }
+}
+
+@media only screen and (min-width : 1000px) {
+    .hero > div {
+        font-size: 3rem;
+    }
+
+    .hero > span:last-of-type {
+        font-size: 1.3rem;
+        margin-left: 35vw;
+    }
+}
+
+@media only screen and (min-width : 1200px) {
+    .hero > div {
+        font-size: 4rem;
+    }
+
+    .hero > span:last-of-type {
+        font-size: 1.5rem;
+        margin-left: 40vw;
+    }
 }

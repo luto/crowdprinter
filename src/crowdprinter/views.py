@@ -10,6 +10,10 @@ import os.path
 
 class PrintJobListView(ListView):
     model = models.PrintJob
+    paginate_by = 50
+
+    def get_ordering(self):
+        return '?'
 
 
 class PrintJobDetailView(DetailView):

@@ -1,15 +1,18 @@
-{% extends 'base.html' %}
+{% include 'crowdprinter/head.html' %}
 
-{% block content %}
-<h1>PrintJobs</h1>
-<div class="printjoblist grid-x grid-margin-x">
+<div class="hero">
+    <div>
+        <span>eh2019 needs a giant bunny,</span><br>
+        <span>help us print it!</span><br>
+    </div>
+    <span>... choose a part from the background</span>
+</div>
+<div class="printjoblist grid-x">
 {% for pfile in object_list %}
-<div class="cell small-6 large-2">
-    <h2>{{ pfile.slug }}</h2>
+<div class="cell small-6 medium-4 large-2">
     <a href="{% url 'printjob_detail' slug=pfile.slug %}">
         <img src="{% url 'printjob_render' slug=pfile.slug %}">
     </a>
 </div>
 {% endfor %}
 </div>
-{% endblock %}
