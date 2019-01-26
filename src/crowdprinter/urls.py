@@ -21,7 +21,7 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', PrintFileListView.as_view()),
+    path('', PrintJobListView.as_view()),
     path('printfile/<slug>/', include([
         path('stl', ServeStlView.as_view(), name='printfile_stl'),
         path('render', ServeRenderView.as_view(), name='printfile_render'),

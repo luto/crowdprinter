@@ -1,14 +1,14 @@
 from django.contrib import admin
-from .models import PrintFile, PrintAttempt
+from .models import PrintJob, PrintAttempt
 
 
 class PrintAttemptInline(admin.TabularInline):
     model = PrintAttempt
 
 
-@admin.register(PrintFile)
-class PrintFileAdmin(admin.ModelAdmin):
-    model = PrintFile
+@admin.register(PrintJob)
+class PrintJobAdmin(admin.ModelAdmin):
+    model = PrintJob
     inlines = [
         PrintAttemptInline,
     ]

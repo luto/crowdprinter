@@ -26,7 +26,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         slug = options['slug']
 
-        f = models.PrintFile(slug=slug)
+        f = models.PrintJob(slug=slug)
         f.stl.save(*self._save_file(options['stl_file'], slug, 'stl'))
         render_ext = os.path.splitext(options['render_file'].name)[1]
         f.render.save(*self._save_file(options['render_file'], slug, render_ext))
