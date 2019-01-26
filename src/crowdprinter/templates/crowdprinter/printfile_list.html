@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>PrintFiles</h1>
+<div class="printfilelist grid-x grid-margin-x">
+{% for pfile in object_list %}
+<div class="cell small-6 large-2">
+    <h2>{{ pfile.slug }}</h2>
+    <img src="{% url 'printfile_render' slug=pfile.slug %}">
+</div>
+{% endfor %}
+</div>
+{% endblock %}

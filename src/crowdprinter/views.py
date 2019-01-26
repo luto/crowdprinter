@@ -1,12 +1,13 @@
-from django.views.generic.base import TemplateView, View
+from django.views.generic.base import View
+from django.views.generic import ListView
 import crowdprinter.models as models
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 import os.path
 
 
-class IndexView(TemplateView):
-    template_name = "crowdprinter/index.html"
+class PrintFileListView(ListView):
+    model = models.PrintFile
 
 
 class ServeFileView(View):
