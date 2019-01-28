@@ -27,6 +27,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         slug = slugify(options['slug'])
 
+        if models.PrintJob.objects.filter(slug=slug).exists():
+            raise CommandError(f'slug {slug} is already taken.')
+
         f = models.PrintJob(slug=slug)
         f.stl.save(*self._save_file(options['stl_file'], slug, 'stl'))
         render_ext = os.path.splitext(options['render_file'].name)[1]
