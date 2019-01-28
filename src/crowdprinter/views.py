@@ -12,6 +12,11 @@ class PrintJobListView(ListView):
     model = models.PrintJob
     paginate_by = 50
 
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['progress_percent'] = '40'
+        return context
+
     def get_ordering(self):
         return '?'
 

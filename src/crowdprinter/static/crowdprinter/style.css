@@ -28,6 +28,21 @@
     width: 15rem;
 }
 
+.myprogressbar {
+    background-color: black;
+    border: 1px black;
+    position: absolute;
+    min-width: 80vw;
+    left: 10vw;
+    bottom: 20vh;
+    z-index: 10;
+}
+
+.myprogressbar .myprogress {
+    background-color: white;
+    height: 2rem;;
+}
+
 .hero {
     text-transform: uppercase;
     font-weight: bold;
