@@ -27,13 +27,11 @@ class PrintJobDetailView(DetailView):
 
 @login_required
 def take_print_job(request, slug):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed(permitted_methods=['POST'])
-
-    models.PrintAttempt.objects.create(
-        job=get_object_or_404(models.PrintJob, slug=slug),
-        user=request.user,
-    )
+    if request.method == 'POST':
+        models.PrintAttempt.objects.create(
+            job=get_object_or_404(models.PrintJob, slug=slug),
+            user=request.user,
+        )
 
     return HttpResponseRedirect(reverse('printjob_detail', kwargs={'slug': slug}))
 
