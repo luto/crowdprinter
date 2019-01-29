@@ -70,6 +70,8 @@ class ServeFileView(View):
 class ServeStlView(ServeFileView):
     def get_file_path(self, **kwargs):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
+        if printjob.latest_attempt.user != self.request.user:
+            raise Http404()
         return printjob.stl.path
 
     def get_download_file_name(self, **kwargs):
