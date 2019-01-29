@@ -67,6 +67,21 @@ def give_back_print_job(request, slug):
     return HttpResponseRedirect(reverse('printjob_detail', kwargs={'slug': slug}))
 
 
+@login_required
+def printjob_done(request, slug):
+    if request.method == 'POST':
+        job = get_object_or_404(models.PrintJob, slug=slug)
+        if job.running_attempt.user == request.user:
+            # setting job.running_attempt.ended doesn't work
+            models.PrintAttempt.objects.filter(pk=job.running_attempt.pk).update(
+                ended=datetime.date.today()
+            )
+            job.finished = True
+            job.save()
+
+    return HttpResponseRedirect(reverse('printjob_detail', kwargs={'slug': slug}))
+
+
 class ServeFileView(View):
 
     def get(self, *args, **kwargs):
