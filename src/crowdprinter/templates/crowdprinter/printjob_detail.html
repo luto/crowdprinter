@@ -18,7 +18,8 @@
             <button class="button success large" type="submit">done</a>
         </form>
         {% elif object.running_attempt.user %}
-        Attempt: {{ object.running_attempt }}
+        someone is already printing this
+        {{ object.running_attempt }}
         {% elif object.finished %}
         already finished :)
         {% else %}
