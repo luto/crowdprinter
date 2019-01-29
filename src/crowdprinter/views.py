@@ -17,6 +17,9 @@ class PrintJobListView(ListView):
         context['progress_percent'] = '40'
         return context
 
+    def get_queryset(self):
+        return super().get_queryset().filter(finished=False)
+
     def get_ordering(self):
         return '?'
 
