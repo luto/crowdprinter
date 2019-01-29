@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.urls import reverse
 import os.path
+import math
+import random
 
 
 class PrintJobListView(ListView):
@@ -15,6 +17,11 @@ class PrintJobListView(ListView):
     def get_context_data(self):
         context = super().get_context_data()
         context['progress_percent'] = '40'
+        count = context['object_list'].count()
+        if count < self.paginate_by:
+            context['object_list'] = list(context['object_list'])
+            context['object_list'] = context['object_list'] * math.ceil((self.paginate_by - count) / count)
+            random.shuffle(context['object_list'])
         return context
 
     def get_queryset(self):
