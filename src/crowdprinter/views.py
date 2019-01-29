@@ -20,7 +20,7 @@ class PrintJobListView(ListView):
         context = super().get_context_data()
         all_count = models.PrintJob.objects.count()
         done_count = models.PrintJob.objects.filter(finished=True).count()
-        context['progress_percent'] = math.floor((done_count / all_count) * 100)
+        context['progress_percent'] = max(math.floor((done_count / all_count) * 100), 5)
         count = context['object_list'].count()
         if count < self.paginate_by:
             context['object_list'] = list(context['object_list'])
