@@ -39,6 +39,14 @@ class PrintJobListView(ListView):
         return '?'
 
 
+class MyPrintAttempts(ListView):
+    model = models.PrintAttempt
+    template_name = 'crowdprinter/myprintattempts.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+
 max_jobs = 3
 
 class PrintJobDetailView(DetailView):

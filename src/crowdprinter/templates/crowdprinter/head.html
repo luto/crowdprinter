@@ -5,3 +5,12 @@
 <link rel="stylesheet" href="{% static 'vendor/foundation.min.css' %}">
 <link rel="stylesheet" href="{% static 'crowdprinter/style.css' %}">
 <script src="{% static 'vendor/foundation.min.js' %}"></script>
+
+<div class="menu">
+    {% if user.is_authenticated %}
+    <a href="{% url 'account_logout' %}">logout</a>
+    <a href="{% url 'my_printattempts' %}">your prints</a>
+    {% else %}
+    <a href="{% url 'account_login' %}">login</a>
+    {% endif %}
+</div>

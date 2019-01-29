@@ -1,3 +1,11 @@
+.menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    background-color: black;
+}
+
 .printjoblist img {
     height: 30vh;
     width: 100%;
