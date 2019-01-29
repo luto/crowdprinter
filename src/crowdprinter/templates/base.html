@@ -1,9 +1,49 @@
 {% include "crowdprinter/head.html" %}
-
-<div class="grid-container">
-    <div class="grid-x grid-margin-x">
-        <div class="cell">
-            {% block content %}{% endblock %}
-        </div>
+<div class="stldecoration top">
+    {% for pfile in stls_header %}
+    <div class="stlcontainer">
+        <a href="{% url 'printjob_detail' slug=pfile.slug %}">
+            <img src="{% url 'printjob_render' slug=pfile.slug %}">
+        </a>
     </div>
+    {% endfor %}
 </div>
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+<div class="stldecoration bottom">
+    {% for pfile in stls_footer %}
+    <div class="stlcontainer">
+        <a href="{% url 'printjob_detail' slug=pfile.slug %}">
+            <img src="{% url 'printjob_render' slug=pfile.slug %}">
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    let images = document.querySelectorAll(".stlcontainer img");
+
+    function cylceColor(image) {
+        let compStyles = window.getComputedStyle(image);
+        let filter = compStyles.getPropertyValue('filter');
+        let old = /[0-9]+deg/.exec(filter)[0].slice(0, -3);
+        old = parseInt(old);
+        old++;
+        old++;
+        if(old > 360) {
+            old = 0;
+        }
+        filter = "grayscale(100%) brightness(30%) sepia(100%) hue-rotate(" + old + "deg) saturate(700%) contrast(1)";
+        image.style.filter = filter;
+    }
+
+    images.forEach(function(image) {
+        cylceColor(image);
+        setTimeout(function () {
+            setInterval(function () {
+                cylceColor(image);
+            }, 100);
+        }, Math.random() * 2000);
+    });
+</script>

@@ -11,23 +11,64 @@
     width: 100%;
 }
 
-.printjoblist div:nth-child(5n) img {
+.main {
+    width: 100%;
+    height: 100%;
+}
+
+.stldecoration {
+    position: absolute;
+    flex-wrap: nowrap;
+    display: flex;
+    height: 15vh;
+    width: 10000px;
+
+    animation-name: scrollstls;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 360s;
+    animation-direction: alternate;
+}
+
+.stldecoration.bottom {
+    bottom: 0;
+    animation-direction: alternate-reverse;
+}
+
+@keyframes scrollstls {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(calc(15vh * -40 + 250vh),0); }
+}
+
+.content {
+    position: absolute;
+    height: 30vh;
+    top: 15vh;
+    left: 0;
+    right: 0;
+}
+
+.stldecoration img {
+    height: 100%;
+}
+
+.stlcontainer:nth-child(5n) img {
     filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-50deg) saturate(700%) contrast(1);
 }
 
-.printjoblist div:nth-child(5n+1) img {
+.stlcontainer:nth-child(5n+1) img {
     filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-80deg) saturate(700%) contrast(1);
 }
 
-.printjoblist div:nth-child(5n+2) img {
+.stlcontainer:nth-child(5n+2) img {
     filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-120deg) saturate(700%) contrast(1);
 }
 
-.printjoblist div:nth-child(5n+3) img {
+.stlcontainer:nth-child(5n+3) img {
     filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-150deg) saturate(700%) contrast(1);
 }
 
-.printjoblist div:nth-child(5n+4) img {
+.stlcontainer:nth-child(5n+4) img {
     filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-190deg) saturate(700%) contrast(1);
 }
 

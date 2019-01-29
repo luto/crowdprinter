@@ -54,7 +54,8 @@ class PrintJobDetailView(DetailView):
 
     def get_context_data(self, object):
         context = super().get_context_data()
-        context['can_take'] = models.PrintAttempt.objects.filter(user=self.request.user, ended__isnull=True).count() < max_jobs
+        if self.request.user.is_authenticated:
+            context['can_take'] = models.PrintAttempt.objects.filter(user=self.request.user, ended__isnull=True).count() < max_jobs
         context['max_jobs'] = max_jobs
         return context
 
