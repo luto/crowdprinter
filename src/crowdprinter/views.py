@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View, TemplateView
 from django.views.generic import DetailView, ListView
 import crowdprinter.models as models
+from django.db.models import IntegerField, Count, Case, When, Q
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.urls import reverse
@@ -27,8 +28,12 @@ class PrintJobListView(ListView):
         return context
 
     def get_queryset(self):
-        return super().get_queryset().filter(finished=False)
-
+        return super().get_queryset().annotate(
+            running_attempts_count=Count(
+                Case(When(~Q(attempts__ended__isnull=False), then=1), output_field=IntegerField())
+            ),
+            attempts_count=Count('attempts')
+        ).filter(Q(running_attempts_count=0) | Q(attempts_count=0), finished=False)
     def get_ordering(self):
         return '?'
 
