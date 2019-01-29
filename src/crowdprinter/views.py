@@ -4,11 +4,12 @@ from django.views.generic import DetailView, ListView
 import crowdprinter.models as models
 from django.db.models import IntegerField, Count, Case, When, Q
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect, Http404
 from django.urls import reverse
 import os.path
 import math
 import random
+import datetime
 
 
 class PrintJobListView(ListView):
@@ -49,6 +50,19 @@ def take_print_job(request, slug):
             job=get_object_or_404(models.PrintJob, slug=slug),
             user=request.user,
         )
+
+    return HttpResponseRedirect(reverse('printjob_detail', kwargs={'slug': slug}))
+
+
+@login_required
+def give_back_print_job(request, slug):
+    if request.method == 'POST':
+        job = get_object_or_404(models.PrintJob, slug=slug)
+        if job.running_attempt.user == request.user:
+            # setting job.running_attempt.ended doesn't work
+            models.PrintAttempt.objects.filter(pk=job.running_attempt.pk).update(
+                ended=datetime.date.today()
+            )
 
     return HttpResponseRedirect(reverse('printjob_detail', kwargs={'slug': slug}))
 

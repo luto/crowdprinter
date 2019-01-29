@@ -27,5 +27,6 @@ urlpatterns = [
         path('stl', ServeStlView.as_view(), name='printjob_stl'),
         path('render', ServeRenderView.as_view(), name='printjob_render'),
         path('take', take_print_job, name='printjob_take'),
+        path('give_back', give_back_print_job, name='printjob_give_back'),
     ]))
 ]

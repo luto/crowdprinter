@@ -7,8 +7,14 @@
         <img src="{% url 'printjob_render' slug=object.slug %}">
     </div>
     <div class="cell auto">
-        {% if object.latest_attempt %}
-        Attempt: {{ object.latest_attempt }}
+        {% if object.running_attempt.user == request.user %}
+        you are printing this!
+        <form action="{% url 'printjob_give_back' slug=object.slug %}" method="POST">
+            {% csrf_token %}
+            <button class="button success large" type="submit">give back</a>
+        </form>
+        {% elif object.running_attempt.user %}
+        Attempt: {{ object.running_attempt }}
         {% else %}
         No attempt running.<br>
         <form action="{% url 'printjob_take' slug=object.slug %}" method="POST">
