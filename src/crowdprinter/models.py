@@ -9,8 +9,8 @@ class PrintJob(models.Model):
     finished = models.BooleanField(default=False)
 
     @property
-    def latest_attempt(self):
-        return self.attempts.order_by('started').get()
+    def running_attempt(self):
+        return self.attempts.order_by('started').filter(ended__isnull=True).get()
 
 
 class PrintAttempt(models.Model):
