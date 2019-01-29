@@ -20,3 +20,6 @@ class PrintJobAdmin(admin.ModelAdmin):
     inlines = [
         PrintAttemptInline,
     ]
+    list_filter = [
+        'finished'
+    ]
