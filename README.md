@@ -6,6 +6,8 @@
 4. people download 1-3 STLs
 5. people report success
 
+Note: most of this code is pretty ugly and has been writted in a couple of days. it's more of a throw-away project ;)
+
 ## Setup
 
 ```
