@@ -39,13 +39,21 @@ class PrintJobListView(ListView):
         return '?'
 
 
+max_jobs = 3
+
 class PrintJobDetailView(DetailView):
     model = models.PrintJob
+
+    def get_context_data(self, object):
+        context = super().get_context_data()
+        context['can_take'] = models.PrintAttempt.objects.filter(user=self.request.user, ended__isnull=True).count() < max_jobs
+        context['max_jobs'] = max_jobs
+        return context
 
 
 @login_required
 def take_print_job(request, slug):
-    if request.method == 'POST':
+    if request.method == 'POST' and (models.PrintAttempt.objects.filter(user=request.user, ended__isnull=True).count() < max_jobs):
         models.PrintAttempt.objects.create(
             job=get_object_or_404(models.PrintJob, slug=slug),
             user=request.user,

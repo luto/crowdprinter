@@ -22,11 +22,15 @@
         {% elif object.finished %}
         already finished :)
         {% else %}
+        {% if can_take %}
         No attempt running.<br>
         <form action="{% url 'printjob_take' slug=object.slug %}" method="POST">
             {% csrf_token %}
             <button class="button success large" type="submit">Take</a>
         </form>
+        {% else %}
+        No attempt running, but you already have {{ max_jobs }}.<br>
+        {% endif %}
         {% endif %}
     </div>
 </div>
