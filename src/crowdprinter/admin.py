@@ -23,3 +23,16 @@ class PrintJobAdmin(admin.ModelAdmin):
     list_filter = [
         'finished'
     ]
+
+
+@admin.register(PrintAttempt)
+class PrintAttemptAdmin(admin.ModelAdmin):
+    model = PrintAttempt
+    list_display = (
+        'user',
+        'started',
+        'ended',
+    )
+    list_filter = [
+        'user'
+    ]
