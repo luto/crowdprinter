@@ -7,7 +7,8 @@
     </div>
     <div class="cell auto">
         {% if object.running_attempt.user == request.user %}
-        you are printing this!
+        <h1>you're supposed to be printing this!</h1>
+        ... go get to work ;)
         <form action="{% url 'printjob_give_back' slug=object.slug %}" method="POST">
             {% csrf_token %}
             <button class="button success large" type="submit">give back</a>
@@ -17,19 +18,22 @@
             <button class="button success large" type="submit">done</a>
         </form>
         {% elif object.running_attempt.user %}
-        someone is already printing this
+        <h1>someone else is printing this</h1>
+        ... check back later.
         {{ object.running_attempt }}
         {% elif object.finished %}
-        already finished :)
+        <h1>this part has been finished</h1>
+        ... how did you get here?
         {% else %}
+        <h1>nobody is printing this right now</h1>
         {% if can_take %}
-        No attempt running.<br>
         <form action="{% url 'printjob_take' slug=object.slug %}" method="POST">
             {% csrf_token %}
-            <button class="button success large" type="submit">Take</a>
+            <button class="button success large" type="submit">take it</a>
         </form>
         {% else %}
-        No attempt running, but you already have {{ max_jobs }}.<br>
+        ... but you are already printing {{ max_jobs }} parts, so you cannot take
+        another one. Please finish them frist.
         {% endif %}
         {% endif %}
     </div>
