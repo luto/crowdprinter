@@ -2,21 +2,23 @@
 
 {% block content %}
 <div class="printjobdetail grid-x grid-margin-x">
-    <div class="cell small-12 medium-3">
+    <div class="cell small-12 medium-3 grid-y">
         <img src="{% url 'printjob_render' slug=object.slug %}">
     </div>
     <div class="cell auto">
         {% if object.running_attempt.user == request.user %}
         <h1>you're supposed to be printing this!</h1>
         ... go get to work ;)
-        <form action="{% url 'printjob_give_back' slug=object.slug %}" method="POST">
-            {% csrf_token %}
-            <button class="button success large" type="submit">give back</a>
-        </form>
-        <form action="{% url 'printjob_done' slug=object.slug %}" method="POST">
-            {% csrf_token %}
-            <button class="button success large" type="submit">done</a>
-        </form>
+        <div class="grid-x grid-margin-x" style="margin-top: 1rem">
+            <form action="{% url 'printjob_give_back' slug=object.slug %}" method="POST" class="cell small-6 medium-2">
+                {% csrf_token %}
+            <button class="button success large" type="submit">give it back</a>
+            </form>
+            <form action="{% url 'printjob_done' slug=object.slug %}" method="POST" class="cell small-6 medium-2">
+                {% csrf_token %}
+            <button class="button success large" type="submit">I'm done</a>
+            </form>
+        </div>
         {% elif object.running_attempt.user %}
         <h1>someone else is printing this</h1>
         ... check back later.

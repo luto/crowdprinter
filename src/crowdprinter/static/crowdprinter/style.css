@@ -42,7 +42,7 @@
 
 .content {
     position: absolute;
-    height: 30vh;
+    height: 70vh;
     top: 15vh;
     left: 0;
     right: 0;
@@ -71,10 +71,17 @@
 .stlcontainer:nth-child(5n+4) img {
     filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-190deg) saturate(700%) contrast(1);
 }
+body {
+    background-color: #333;
+    color: white;
+}
+.printjobdetail {
+    height: 100%;
+}
 
 .printjobdetail img {
-    height: 15rem;
-    width: 15rem;
+    width: 100%;
+    margin: auto 0;
 }
 
 .myprogressbar {
