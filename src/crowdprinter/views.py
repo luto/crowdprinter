@@ -42,6 +42,14 @@ class PrintJobListView(ListView):
 class MyPrintAttempts(ListView):
     model = models.PrintAttempt
     template_name = 'crowdprinter/myprintattempts.html'
+    ordering = ['ended']
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['finished'] = context['object_list'].filter(ended__isnull=False)
+        context['running'] = context['object_list'].filter(ended__isnull=True)
+        del context['object_list']
+        return context
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
