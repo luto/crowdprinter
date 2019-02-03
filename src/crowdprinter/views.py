@@ -117,6 +117,7 @@ class ServeFileView(View):
             )
         dl_path = self.get_download_file_name(**kwargs)
         response['Content-Disposition'] = f'attachment; filename={dl_path}'
+        response['Cache-Control'] = 'public, max-age=31536000'
         return response
 
     def get_file_path(self, **kwargs):
