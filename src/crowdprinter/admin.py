@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import PrintJob, PrintAttempt
 
 
@@ -30,14 +31,15 @@ class PrintAttemptAdmin(admin.ModelAdmin):
     model = PrintAttempt
     list_display = (
         'user',
-        'job',
+        'job_link',
         'started',
         'ended',
-    )
-    list_display_links = (
-        'user',
-        'job',
     )
     list_filter = [
         'user'
     ]
+    def job_link(self, obj):
+        url = f'/admin/crowdprinter/printjob/{obj.job_id}/change/'
+        return format_html("<a href='{}'>{}</a>", url, obj.job_id)
+    job_link.admin_order_field = 'job'
+    job_link.short_description = 'job'
