@@ -30,8 +30,13 @@ class PrintAttemptAdmin(admin.ModelAdmin):
     model = PrintAttempt
     list_display = (
         'user',
+        'job',
         'started',
         'ended',
+    )
+    list_display_links = (
+        'user',
+        'job',
     )
     list_filter = [
         'user'
