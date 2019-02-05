@@ -19,6 +19,9 @@
             <button class="button success large" type="submit">I'm done</a>
             </form>
         </div>
+        {% elif not request.user.is_authenticated %}
+        <h1>please login first!</h1>
+        <a href="{% url 'account_login' %}" class="button large">login</a>
         {% elif object.running_attempt.user %}
         <h1>someone else is printing this</h1>
         ... check back later.
