@@ -11,7 +11,7 @@ class PrintAttemptInline(admin.TabularInline):
     fields = (
         'user',
         'started',
-        'finished',
+        'ended',
     )
 
 
