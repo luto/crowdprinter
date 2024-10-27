@@ -1,17 +1,17 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import PrintJob, PrintAttempt
+
+from .models import PrintAttempt
+from .models import PrintJob
 
 
 class PrintAttemptInline(admin.TabularInline):
     model = PrintAttempt
-    readonly_fields = (
-        'started',
-    )
+    readonly_fields = ("started",)
     fields = (
-        'user',
-        'started',
-        'ended',
+        "user",
+        "started",
+        "ended",
     )
 
 
@@ -21,25 +21,23 @@ class PrintJobAdmin(admin.ModelAdmin):
     inlines = [
         PrintAttemptInline,
     ]
-    list_filter = [
-        'finished'
-    ]
+    list_filter = ["finished"]
 
 
 @admin.register(PrintAttempt)
 class PrintAttemptAdmin(admin.ModelAdmin):
     model = PrintAttempt
     list_display = (
-        'user',
-        'job_link',
-        'started',
-        'ended',
+        "user",
+        "job_link",
+        "started",
+        "ended",
     )
-    list_filter = [
-        'user'
-    ]
+    list_filter = ["user"]
+
     def job_link(self, obj):
-        url = f'/admin/crowdprinter/printjob/{obj.job_id}/change/'
+        url = f"/admin/crowdprinter/printjob/{obj.job_id}/change/"
         return format_html("<a href='{}'>{}</a>", url, obj.job_id)
-    job_link.admin_order_field = 'job'
-    job_link.short_description = 'job'
+
+    job_link.admin_order_field = "job"
+    job_link.short_description = "job"

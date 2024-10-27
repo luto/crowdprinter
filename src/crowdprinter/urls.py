@@ -13,22 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include
+from django.urls import path
 
 from .views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('', PrintJobListView.as_view()),
-    path('myprints', MyPrintAttempts.as_view(), name='my_printattempts'),
-    path('printjob/<slug>/', include([
-        path('', PrintJobDetailView.as_view(), name='printjob_detail'),
-        path('stl', ServeStlView.as_view(), name='printjob_stl'),
-        path('render', ServeRenderView.as_view(), name='printjob_render'),
-        path('take', take_print_job, name='printjob_take'),
-        path('give_back', give_back_print_job, name='printjob_give_back'),
-        path('done', printjob_done, name='printjob_done'),
-    ]))
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
+    path("", PrintJobListView.as_view()),
+    path("myprints", MyPrintAttempts.as_view(), name="my_printattempts"),
+    path(
+        "printjob/<slug>/",
+        include(
+            [
+                path("", PrintJobDetailView.as_view(), name="printjob_detail"),
+                path("stl", ServeStlView.as_view(), name="printjob_stl"),
+                path("render", ServeRenderView.as_view(), name="printjob_render"),
+                path("take", take_print_job, name="printjob_take"),
+                path("give_back", give_back_print_job, name="printjob_give_back"),
+                path("done", printjob_done, name="printjob_done"),
+            ]
+        ),
+    ),
 ]

@@ -1,5 +1,5 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 
 
 class PrintJob(models.Model):
@@ -10,17 +10,19 @@ class PrintJob(models.Model):
 
     @property
     def running_attempt(self):
-        return self.attempts.order_by('started').filter(ended__isnull=True).get()
+        return self.attempts.order_by("started").filter(ended__isnull=True).get()
 
     def __str__(self):
-        return f'{self.slug}'
+        return f"{self.slug}"
 
 
 class PrintAttempt(models.Model):
-    job = models.ForeignKey('PrintJob', on_delete=models.CASCADE, related_name='attempts')
+    job = models.ForeignKey(
+        "PrintJob", on_delete=models.CASCADE, related_name="attempts"
+    )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     started = models.DateField(auto_now_add=True)
     ended = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f'Print Attempt at {self.job}: user={self.user}, ended={self.ended}'
+        return f"Print Attempt at {self.job}: user={self.user}, ended={self.ended}"
