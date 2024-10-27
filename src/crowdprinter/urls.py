@@ -18,23 +18,23 @@ from django.contrib import admin
 from django.urls import include
 from django.urls import path
 
-from .views import *
+from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("", PrintJobListView.as_view()),
-    path("myprints", MyPrintAttempts.as_view(), name="my_printattempts"),
+    path("", views.PrintJobListView.as_view()),
+    path("myprints", views.MyPrintAttempts.as_view(), name="my_printattempts"),
     path(
         "printjob/<slug>/",
         include(
             [
-                path("", PrintJobDetailView.as_view(), name="printjob_detail"),
-                path("stl", ServeStlView.as_view(), name="printjob_stl"),
-                path("render", ServeRenderView.as_view(), name="printjob_render"),
-                path("take", take_print_job, name="printjob_take"),
-                path("give_back", give_back_print_job, name="printjob_give_back"),
-                path("done", printjob_done, name="printjob_done"),
+                path("", views.PrintJobDetailView.as_view(), name="printjob_detail"),
+                path("stl", views.ServeStlView.as_view(), name="printjob_stl"),
+                path("render", views.ServeRenderView.as_view(), name="printjob_render"),
+                path("take", views.take_print_job, name="printjob_take"),
+                path("give_back", views.give_back_print_job, name="printjob_give_back"),
+                path("done", views.printjob_done, name="printjob_done"),
             ]
         ),
     ),

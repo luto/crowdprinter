@@ -162,6 +162,6 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DOWNLOAD_FILE_PREFIX = "38c3_"
 
 try:
-    from .local_settings import *
+    from .local_settings import *  # NOQA
 except ImportError:
     pass
