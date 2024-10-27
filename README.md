@@ -15,6 +15,7 @@ Note: most of this code is pretty ugly and has been writted in a couple of days.
 ```
 virtualenv env --python python3.6
 pip install -r src/requirements.txt
+pre-commit install --install-hooks
 cd src
 ./manage.py migrate
 ./manage.py createsuperuser

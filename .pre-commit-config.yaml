@@ -1,0 +1,43 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      # Whitespace
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: |
+          (?x)(
+            \.min\.(css|js)$|
+            \.svg$|
+          )
+      - id: mixed-line-ending
+        args:
+          - "--fix=lf"
+      # VCS
+      - id: check-merge-conflict
+        args:
+          - "--assume-in-merge"
+      # Binaries
+      - id: check-shebang-scripts-are-executable
+      # Config / Data Files (syntax check only)
+      - id: check-json
+      - id: check-yaml
+      - id: check-toml
+      - id: check-xml
+      # Python
+      - id: debug-statements
+      - id: requirements-txt-fixer
+      # Sensitive Data
+      - id: detect-private-key
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        args:
+          - "--target-version=py311"
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--profile", "black", "--force-single-line-imports"]
