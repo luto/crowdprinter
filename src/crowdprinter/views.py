@@ -6,6 +6,7 @@ from django.db.models import IntegerField, Count, Case, When, Q
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.conf import settings
 import os.path
 import math
 import random
@@ -135,7 +136,7 @@ class ServeStlView(ServeFileView):
         return printjob.stl.path
 
     def get_download_file_name(self, **kwargs):
-        return f'eh19_{kwargs["slug"]}.stl'
+        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.stl'
 
 
 class ServeRenderView(ServeFileView):
@@ -146,4 +147,4 @@ class ServeRenderView(ServeFileView):
     def get_download_file_name(self, **kwargs):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs['slug'])
         ext = os.path.splitext(printjob.render.path)[1]
-        return f'eh19_{kwargs["slug"]}.{ext}'
+        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.{ext}'

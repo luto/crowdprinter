@@ -161,6 +161,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SITE_ID = 1  # needed by allauth
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+DOWNLOAD_FILE_PREFIX = "38c3_"
+
 try:
     from .local_settings import *
 except ImportError:
