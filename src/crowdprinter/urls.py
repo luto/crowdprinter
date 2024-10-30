@@ -32,14 +32,9 @@ urlpatterns = [
                 path("", views.PrintJobDetailView.as_view(), name="printjob_detail"),
                 path("stl", views.ServeStlView.as_view(), name="printjob_stl"),
                 path(
-                    "file/<fileid>/gcode",
-                    views.ServeGcodeFileView.as_view(),
+                    "file/<fileid>/<ext>",
+                    views.ServeJobFileView.as_view(),
                     name="printjob_gcode",
-                ),
-                path(
-                    "file/<fileid>/3mf",
-                    views.Serve3mfFileView.as_view(),
-                    name="printjob_3mf",
                 ),
                 path("render", views.ServeRenderView.as_view(), name="printjob_render"),
                 path("take", views.take_print_job, name="printjob_take"),

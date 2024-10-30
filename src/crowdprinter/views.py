@@ -142,20 +142,19 @@ def printjob_done(request, slug):
 class ServeFileView(View):
 
     def get(self, *args, **kwargs):
-        with open(self.get_file_path(**kwargs), mode="rb") as f:
+        path = self.get_file_path(**kwargs)
+        with open(path, mode="rb") as f:
             response = HttpResponse(
                 f.read(),
                 content_type="application/force-download",
             )
-        dl_path = self.get_download_file_name(**kwargs)
+        ext = os.path.splitext(path)[1]
+        dl_path = f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.{ext}'
         response["Content-Disposition"] = f"attachment; filename={dl_path}"
         response["Cache-Control"] = "public, max-age=31536000"
         return response
 
     def get_file_path(self, **kwargs):
-        raise NotImplementedError()
-
-    def get_download_file_name(self, **kwargs):
         raise NotImplementedError()
 
 
@@ -166,34 +165,25 @@ class ServeStlView(ServeFileView):
             raise Http404()
         return printjob.file_stl.path
 
-    def get_download_file_name(self, **kwargs):
-        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.stl'
-
 
 class ServeRenderView(ServeFileView):
     def get_file_path(self, **kwargs):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
         return printjob.file_render.path
 
-    def get_download_file_name(self, **kwargs):
-        printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
-        ext = os.path.splitext(printjob.file_render.path)[1]
-        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.{ext}'
 
-
-class ServeGcodeFileView(ServeFileView):
+class ServeJobFileView(ServeFileView):
     def get_file_path(self, **kwargs):
-        printjob = get_object_or_404(models.PrintJobFile, pk=kwargs["fileid"])
-        return printjob.file_gcode.path
+        printjobfile = get_object_or_404(models.PrintJobFile, pk=kwargs["fileid"])
 
-    def get_download_file_name(self, **kwargs):
-        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.gcode'
+        if printjobfile.job.slug != kwargs["slug"]:
+            raise Http404()
+        if printjobfile.job.running_attempt.user != self.request.user:
+            raise Http404()
 
-
-class Serve3mfFileView(ServeFileView):
-    def get_file_path(self, **kwargs):
-        printjob = get_object_or_404(models.PrintJobFile, pk=kwargs["fileid"])
-        return printjob.file_3mf.path
-
-    def get_download_file_name(self, **kwargs):
-        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.3mf'
+        if kwargs["ext"] == "3mf":
+            return printjobfile.file_3mf.path
+        elif kwargs["ext"] == "gcode":
+            return printjobfile.file_gcode.path
+        else:
+            raise Http404()
