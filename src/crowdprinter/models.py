@@ -2,10 +2,18 @@ from django.conf import settings
 from django.db import models
 
 
+class Printer(models.Model):
+    slug = models.SlugField(primary_key=True)
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"Printer {self.slug} ({self.name})"
+
+
 class PrintJob(models.Model):
     slug = models.SlugField(primary_key=True)
-    stl = models.FileField()
-    render = models.FileField(null=True)
+    file_stl = models.FileField(null=True, blank=True)
+    file_render = models.FileField(null=True)
     finished = models.BooleanField(default=False)
 
     @property
@@ -14,6 +22,13 @@ class PrintJob(models.Model):
 
     def __str__(self):
         return f"{self.slug}"
+
+
+class PrintJobFile(models.Model):
+    file_3mf = models.FileField(null=True, blank=True)
+    file_gcode = models.FileField()
+    job = models.ForeignKey(PrintJob, models.CASCADE, related_name="files")
+    printer = models.ForeignKey(Printer, models.PROTECT)
 
 
 class PrintAttempt(models.Model):

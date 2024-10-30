@@ -35,6 +35,6 @@ class Command(BaseCommand):
             raise CommandError(f"slug {slug} is already taken.")
 
         f = models.PrintJob(slug=slug)
-        f.stl.save(*self._save_file(options["stl_file"], slug, "stl"))
+        f.file_stl.save(*self._save_file(options["stl_file"], slug, "stl"))
         render_ext = os.path.splitext(options["render_file"].name)[1]
-        f.render.save(*self._save_file(options["render_file"], slug, render_ext))
+        f.file_render.save(*self._save_file(options["render_file"], slug, render_ext))

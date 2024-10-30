@@ -164,7 +164,7 @@ class ServeStlView(ServeFileView):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
         if printjob.running_attempt.user != self.request.user:
             raise Http404()
-        return printjob.stl.path
+        return printjob.file_stl.path
 
     def get_download_file_name(self, **kwargs):
         return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.stl'
@@ -173,9 +173,27 @@ class ServeStlView(ServeFileView):
 class ServeRenderView(ServeFileView):
     def get_file_path(self, **kwargs):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
-        return printjob.render.path
+        return printjob.file_render.path
 
     def get_download_file_name(self, **kwargs):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
-        ext = os.path.splitext(printjob.render.path)[1]
+        ext = os.path.splitext(printjob.file_render.path)[1]
         return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.{ext}'
+
+
+class ServeGcodeFileView(ServeFileView):
+    def get_file_path(self, **kwargs):
+        printjob = get_object_or_404(models.PrintJobFile, pk=kwargs["fileid"])
+        return printjob.file_gcode.path
+
+    def get_download_file_name(self, **kwargs):
+        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.gcode'
+
+
+class Serve3mfFileView(ServeFileView):
+    def get_file_path(self, **kwargs):
+        printjob = get_object_or_404(models.PrintJobFile, pk=kwargs["fileid"])
+        return printjob.file_3mf.path
+
+    def get_download_file_name(self, **kwargs):
+        return f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.3mf'

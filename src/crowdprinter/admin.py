@@ -2,7 +2,14 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import PrintAttempt
+from .models import Printer
 from .models import PrintJob
+from .models import PrintJobFile
+
+
+@admin.register(Printer)
+class PrinterAdmin(admin.ModelAdmin):
+    model = Printer
 
 
 class PrintAttemptInline(admin.TabularInline):
@@ -13,12 +20,24 @@ class PrintAttemptInline(admin.TabularInline):
         "started",
         "ended",
     )
+    extra = 0
+
+
+class PrintJobFileInline(admin.TabularInline):
+    model = PrintJobFile
+    fields = (
+        "file_3mf",
+        "file_gcode",
+        "printer",
+    )
+    extra = 0
 
 
 @admin.register(PrintJob)
 class PrintJobAdmin(admin.ModelAdmin):
     model = PrintJob
     inlines = [
+        PrintJobFileInline,
         PrintAttemptInline,
     ]
     list_filter = ["finished"]
