@@ -20,6 +20,7 @@ class PrintAttemptInline(admin.TabularInline):
         "started",
         "ended",
         "finished",
+        "dropped_off",
     )
     extra = 0
 
