@@ -5,8 +5,8 @@ import random
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
 from django.http import Http404
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -113,19 +113,17 @@ def printjob_done(request, slug):
 
 
 class ServeFileView(View):
+    as_attachment = True
 
     def get(self, *args, **kwargs):
         path = self.get_file_path(**kwargs)
-        with open(path, mode="rb") as f:
-            response = HttpResponse(
-                f.read(),
-                content_type="application/force-download",
-            )
         ext = os.path.splitext(path)[1]
-        dl_path = f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.{ext}'
-        response["Content-Disposition"] = f"attachment; filename={dl_path}"
-        response["Cache-Control"] = "public, max-age=31536000"
-        return response
+        dl_filename = f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.{ext}'
+        return FileResponse(
+            open(path, mode="rb"),
+            as_attachment=self.as_attachment,
+            filename=dl_filename,
+        )
 
     def get_file_path(self, **kwargs):
         raise NotImplementedError()
@@ -140,6 +138,8 @@ class ServeStlView(ServeFileView):
 
 
 class ServeRenderView(ServeFileView):
+    as_attachment = False
+
     def get_file_path(self, **kwargs):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
         return printjob.file_render.path
