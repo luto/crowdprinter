@@ -6,7 +6,7 @@
         <img src="{% url 'printjob_render' slug=object.slug %}">
     </div>
     <div class="cell auto">
-        {% if object.running_attempt.user == request.user %}
+        {% if request.user in object.attempting_users %}
         <h1>you're supposed to be printing this!</h1>
         ... go get to work ;)
         <div class="grid-x grid-margin-x" style="margin-top: 1rem">
@@ -37,19 +37,18 @@
         {% elif not request.user.is_authenticated %}
         <h1>please login first!</h1>
         <a href="{% url 'account_login' %}" class="button large">login</a>
-        {% elif object.running_attempt.user %}
-        <h1>someone else is printing this</h1>
-        ... check back later.
-        {{ object.running_attempt }}
+        {% elif not object.can_attempt %}
+        <h1>too many people are printing this</h1>
+        ... check back later or chose a different file.
         {% elif object.finished %}
         <h1>this part has been finished</h1>
         ... how did you get here?
         {% else %}
-        <h1>nobody is printing this right now</h1>
+        <h1>more of this part are needed</h1>
         {% if can_take %}
         <form action="{% url 'printjob_take' slug=object.slug %}" method="POST">
             {% csrf_token %}
-            <button class="button success large" type="submit">take it</a>
+            <button class="button success large" type="submit">print one</a>
         </form>
         {% else %}
         ... but you are already printing {{ max_jobs }} parts, so you cannot take

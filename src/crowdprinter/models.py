@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -10,15 +11,51 @@ class Printer(models.Model):
         return f"Printer {self.slug} ({self.name})"
 
 
+class PrintJobQuerySet(models.QuerySet):
+    def with_finished(self):
+        return self.annotate(
+            finished_count=models.Count(
+                "attempts", filter=models.Q(attempts__finished=True)
+            ),
+            finished=models.Q(finished_count__gte=models.F("count_needed")),
+            running_or_finished_count=models.Count(
+                "attempts",
+                filter=(
+                    models.Q(attempts__ended__isnull=True)
+                    | models.Q(attempts__finished=True)
+                ),
+            ),
+            can_attempt=models.Q(
+                running_or_finished_count__lt=models.F("count_needed")
+            ),
+        )
+
+
+class PrintJobManager(models.Manager):
+    def get_queryset(self):
+        return PrintJobQuerySet(self.model, using=self._db).with_finished()
+
+
 class PrintJob(models.Model):
     slug = models.SlugField(primary_key=True)
     file_stl = models.FileField(null=True, blank=True)
     file_render = models.FileField(null=True)
-    finished = models.BooleanField(default=False)
+    count_needed = models.PositiveIntegerField(default=1)
+
+    objects = PrintJobManager()
 
     @property
-    def running_attempt(self):
-        return self.attempts.order_by("started").filter(ended__isnull=True).get()
+    def running_attempts(self):
+        return self.attempts.filter(ended__isnull=True)
+
+    @property
+    def attempting_users(self):
+        user_ids = self.running_attempts.values_list("user", flat=True)
+        users = get_user_model().objects.filter(pk__in=user_ids)
+        return users
+
+    def get_user_attempt(self, user):
+        return self.running_attempts.filter(user=user).get()
 
     def __str__(self):
         return f"{self.slug}"
@@ -38,6 +75,7 @@ class PrintAttempt(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     started = models.DateField(auto_now_add=True)
     ended = models.DateField(null=True, blank=True)
+    finished = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Print Attempt at {self.job}: user={self.user}, ended={self.ended}"

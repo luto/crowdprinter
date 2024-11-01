@@ -19,6 +19,7 @@ class PrintAttemptInline(admin.TabularInline):
         "user",
         "started",
         "ended",
+        "finished",
     )
     extra = 0
 
@@ -40,7 +41,6 @@ class PrintJobAdmin(admin.ModelAdmin):
         PrintJobFileInline,
         PrintAttemptInline,
     ]
-    list_filter = ["finished"]
 
 
 @admin.register(PrintAttempt)

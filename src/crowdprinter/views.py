@@ -5,11 +5,6 @@ import random
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.db.models import Case
-from django.db.models import Count
-from django.db.models import IntegerField
-from django.db.models import Q
-from django.db.models import When
 from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -41,23 +36,7 @@ class PrintJobListView(ListView):
         return context
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .annotate(
-                running_attempts_count=Count(
-                    Case(
-                        When(~Q(attempts__ended__isnull=False), then=1),
-                        output_field=IntegerField(),
-                    )
-                ),
-                attempts_count=Count("attempts"),
-            )
-            .filter(Q(running_attempts_count=0) | Q(attempts_count=0), finished=False)
-        )
-
-    def get_ordering(self):
-        return "?"
+        return super().get_queryset().filter(can_attempt=True).order_by("?")
 
 
 class MyPrintAttempts(ListView):
@@ -79,30 +58,27 @@ class MyPrintAttempts(ListView):
 max_jobs = 3
 
 
+def can_take_job(user):
+    return (
+        models.PrintAttempt.objects.filter(user=user, ended__isnull=True).count()
+        < max_jobs
+    )
+
+
 class PrintJobDetailView(DetailView):
     model = models.PrintJob
 
     def get_context_data(self, object):
         context = super().get_context_data()
         if self.request.user.is_authenticated:
-            context["can_take"] = (
-                models.PrintAttempt.objects.filter(
-                    user=self.request.user, ended__isnull=True
-                ).count()
-                < max_jobs
-            )
+            context["can_take"] = can_take_job(self.request.user)
         context["max_jobs"] = max_jobs
         return context
 
 
 @login_required
 def take_print_job(request, slug):
-    if request.method == "POST" and (
-        models.PrintAttempt.objects.filter(
-            user=request.user, ended__isnull=True
-        ).count()
-        < max_jobs
-    ):
+    if request.method == "POST" and can_take_job(request.user):
         models.PrintAttempt.objects.create(
             job=get_object_or_404(models.PrintJob, slug=slug),
             user=request.user,
@@ -114,12 +90,11 @@ def take_print_job(request, slug):
 @login_required
 def give_back_print_job(request, slug):
     if request.method == "POST":
-        job = get_object_or_404(models.PrintJob, slug=slug)
-        if job.running_attempt.user == request.user:
-            # setting job.running_attempt.ended doesn't work
-            models.PrintAttempt.objects.filter(pk=job.running_attempt.pk).update(
-                ended=datetime.date.today()
-            )
+        attempt = get_object_or_404(
+            models.PrintAttempt, job__slug=slug, user=request.user, ended__isnull=True
+        )
+        attempt.ended = datetime.date.today()
+        attempt.save()
 
     return HttpResponseRedirect(reverse("printjob_detail", kwargs={"slug": slug}))
 
@@ -127,14 +102,12 @@ def give_back_print_job(request, slug):
 @login_required
 def printjob_done(request, slug):
     if request.method == "POST":
-        job = get_object_or_404(models.PrintJob, slug=slug)
-        if job.running_attempt.user == request.user:
-            # setting job.running_attempt.ended doesn't work
-            models.PrintAttempt.objects.filter(pk=job.running_attempt.pk).update(
-                ended=datetime.date.today()
-            )
-            job.finished = True
-            job.save()
+        attempt = get_object_or_404(
+            models.PrintAttempt, job__slug=slug, user=request.user, ended__isnull=True
+        )
+        attempt.ended = datetime.date.today()
+        attempt.finished = True
+        attempt.save()
 
     return HttpResponseRedirect(reverse("printjob_detail", kwargs={"slug": slug}))
 
@@ -161,7 +134,7 @@ class ServeFileView(View):
 class ServeStlView(ServeFileView):
     def get_file_path(self, **kwargs):
         printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
-        if printjob.running_attempt.user != self.request.user:
+        if self.request.user not in printjob.attempting_users:
             raise Http404()
         return printjob.file_stl.path
 
@@ -178,7 +151,7 @@ class ServeJobFileView(ServeFileView):
 
         if printjobfile.job.slug != kwargs["slug"]:
             raise Http404()
-        if printjobfile.job.running_attempt.user != self.request.user:
+        if self.request.user not in printjobfile.job.attempting_users:
             raise Http404()
 
         if kwargs["ext"] == "3mf":
