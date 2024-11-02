@@ -87,7 +87,10 @@ class PrintJobDetailView(DetailView):
 def take_print_job(request, slug):
     job = get_object_or_404(models.PrintJob, slug=slug)
     if request.method == "POST" and can_take_job(request.user, job):
-        models.PrintAttempt.objects.create(job=job, user=request.user)
+        models.PrintAttempt.objects.create(
+            job=job,
+            user=request.user,
+        )
 
     return HttpResponseRedirect(reverse("printjob_detail", kwargs={"slug": slug}))
 
@@ -96,7 +99,10 @@ def take_print_job(request, slug):
 def give_back_print_job(request, slug):
     if request.method == "POST":
         attempt = get_object_or_404(
-            models.PrintAttempt, job__slug=slug, user=request.user, ended__isnull=True
+            models.PrintAttempt,
+            job__slug=slug,
+            user=request.user,
+            ended__isnull=True,
         )
         attempt.ended = datetime.date.today()
         attempt.save()
@@ -108,7 +114,10 @@ def give_back_print_job(request, slug):
 def printjob_done(request, slug):
     if request.method == "POST":
         attempt = get_object_or_404(
-            models.PrintAttempt, job__slug=slug, user=request.user, ended__isnull=True
+            models.PrintAttempt,
+            job__slug=slug,
+            user=request.user,
+            ended__isnull=True,
         )
         attempt.ended = datetime.date.today()
         attempt.finished = True
@@ -136,7 +145,10 @@ class ServeFileView(View):
 
 class ServeStlView(ServeFileView):
     def get_file_path(self, **kwargs):
-        printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
+        printjob = get_object_or_404(
+            models.PrintJob,
+            slug=kwargs["slug"],
+        )
         if self.request.user not in printjob.attempting_users:
             raise Http404()
         return printjob.file_stl.path
@@ -147,7 +159,10 @@ class ServeRenderView(ServeFileView):
     as_attachment = False
 
     def get_file_path(self, **kwargs):
-        printjob = get_object_or_404(models.PrintJob, slug=kwargs["slug"])
+        printjob = get_object_or_404(
+            models.PrintJob,
+            slug=kwargs["slug"],
+        )
         return printjob.file_render.path
 
 
