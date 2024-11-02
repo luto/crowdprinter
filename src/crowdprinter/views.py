@@ -10,6 +10,8 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_control
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic.base import View
@@ -137,6 +139,7 @@ class ServeStlView(ServeFileView):
         return printjob.file_stl.path
 
 
+@method_decorator([cache_control(max_age=315360000)], name="dispatch")
 class ServeRenderView(ServeFileView):
     as_attachment = False
 
