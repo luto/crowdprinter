@@ -92,7 +92,6 @@ label {
 }
 
 .myprogressbar {
-    display: none;
     background-color: black;
     border: 1px black;
     position: absolute;
