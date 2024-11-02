@@ -19,7 +19,7 @@ import crowdprinter.models as models
 
 class PrintJobListView(ListView):
     model = models.PrintJob
-    paginate_by = 50
+    paginate_by = 6 * 4
 
     def get_context_data(self):
         context = super().get_context_data()
