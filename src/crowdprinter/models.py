@@ -76,7 +76,7 @@ class PrintAttempt(models.Model):
     started = models.DateField(auto_now_add=True)
     ended = models.DateField(null=True, blank=True)
     finished = models.BooleanField(default=False)
-    dropped_off = models.BooleanField(default=True)
+    dropped_off = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Print Attempt at {self.job}: user={self.user}, ended={self.ended}"
