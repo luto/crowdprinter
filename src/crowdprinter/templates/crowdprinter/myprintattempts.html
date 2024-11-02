@@ -5,14 +5,14 @@
 
 <h2>still running</h2>
 <ul>
-    {% for p in running %}
-    <li><a href="{% url 'printjob_detail' slug=p.job.slug %}">{{ p.job.slug }}</a>, started on {{ p.started }}</li>
+    {% for a in running_attempts %}
+    <li><a href="{% url 'printjob_detail' slug=a.job.slug %}">{{ a.job.slug }}</a>, started on {{ a.started }}</li>
     {% endfor %}
 </ul>
 
 <h2>finished</h2>
-{% for p in finished %}
-{{ p.job.slug }},
+{% for a in finished_attempts %}
+{{ a.job.slug }},
 {% endfor %}
 
 {% endblock %}

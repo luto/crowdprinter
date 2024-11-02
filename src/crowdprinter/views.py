@@ -22,6 +22,7 @@ import crowdprinter.models as models
 class PrintJobListView(ListView):
     model = models.PrintJob
     paginate_by = 6 * 4
+    context_object_name = "jobs"
 
     def get_context_data(self):
         context = super().get_context_data()
@@ -30,13 +31,13 @@ class PrintJobListView(ListView):
         context["progress_percent"] = max(
             math.floor((done_count / max(1, all_count)) * 100), 5
         )
-        count = context["object_list"].count()
+        count = context["jobs"].count()
         if count < self.paginate_by:
-            context["object_list"] = list(context["object_list"])
-            context["object_list"] = context["object_list"] * math.ceil(
+            context["jobs"] = list(context["jobs"])
+            context["jobs"] = context["jobs"] * math.ceil(
                 (self.paginate_by - count) / max(1, count)
             )
-            random.shuffle(context["object_list"])
+            random.shuffle(context["jobs"])
         return context
 
     def get_queryset(self):
@@ -47,12 +48,13 @@ class MyPrintAttempts(ListView):
     model = models.PrintAttempt
     template_name = "crowdprinter/myprintattempts.html"
     ordering = ["ended"]
+    context_object_name = "attempts"
 
     def get_context_data(self):
         context = super().get_context_data()
-        context["finished"] = context["object_list"].filter(ended__isnull=False)
-        context["running"] = context["object_list"].filter(ended__isnull=True)
-        del context["object_list"]
+        context["finished_attempts"] = context["attempts"].filter(ended__isnull=False)
+        context["running_attempts"] = context["attempts"].filter(ended__isnull=True)
+        del context["attempts"]
         return context
 
     def get_queryset(self):
@@ -71,11 +73,12 @@ def can_take_job(user, job):
 
 class PrintJobDetailView(DetailView):
     model = models.PrintJob
+    context_object_name = "job"
 
     def get_context_data(self, object):
         context = super().get_context_data()
         if self.request.user.is_authenticated:
-            context["can_take"] = can_take_job(self.request.user, self.object)
+            context["can_take_job"] = can_take_job(self.request.user, self.object)
         context["max_jobs"] = max_jobs
         return context
 
