@@ -32,4 +32,5 @@ jobs:
     - name: Run tests
       run: |
         cd src
+        python manage.py collectstatic --no-input
         py.test
