@@ -206,7 +206,7 @@ class ServeFileView(View):
     def get(self, *args, **kwargs):
         path = self.get_file_path(**kwargs)
         ext = os.path.splitext(path)[1]
-        dl_filename = f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}.{ext}'
+        dl_filename = f'{settings.DOWNLOAD_FILE_PREFIX}_{kwargs["slug"]}{ext}'
         return FileResponse(
             open(path, mode="rb"),
             as_attachment=self.as_attachment,
