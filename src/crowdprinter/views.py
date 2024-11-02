@@ -23,6 +23,7 @@ from django.views.decorators.cache import cache_control
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic.base import View
 
 import crowdprinter.models as models
@@ -291,3 +292,11 @@ class ServeJobFileView(ServeFileView):
             return printjobfile.file_gcode.path
         else:
             raise Http404()
+
+
+class InfoView(TemplateView):
+    template_name = "crowdprinter/info.html"
+
+
+class FaqView(TemplateView):
+    template_name = "crowdprinter/faq.html"
