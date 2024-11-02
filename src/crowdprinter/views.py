@@ -150,12 +150,12 @@ class ServeRenderView(ServeFileView):
 
 class ServeJobFileView(ServeFileView):
     def get_file_path(self, **kwargs):
-        printjobfile = get_object_or_404(models.PrintJobFile, pk=kwargs["fileid"])
-
-        if printjobfile.job.slug != kwargs["slug"]:
-            raise Http404()
-        if self.request.user not in printjobfile.job.attempting_users:
-            raise Http404()
+        printjobfile = get_object_or_404(
+            models.PrintJobFile,
+            printer=kwargs["printer"],
+            job__slug=kwargs["slug"],
+            job__attempts__user=self.request.user,
+        )
 
         if kwargs["ext"] == "3mf":
             return printjobfile.file_3mf.path

@@ -22,15 +22,15 @@
         {% if object.file_stl %}
         <div class="grid-x grid-margin-x" style="margin-top: 1rem">
             <span class="cell">generic:</span>
-            <a href='/printjob/{{ object.slug }}/stl' class="cell small-12 medium-2 button primary large">Download<br>STL</a>
+            <a href='{% url 'printjob_stl' slug=object.slug %}' class="cell small-12 medium-2 button primary large">Download<br>STL</a>
         </div>
         {% endif %}
         <div class="grid-x grid-margin-x" style="margin-top: 1rem">
         {% for file in object.files.all %}
             <span class="cell">{{ file.printer.name }}:</span>
-            <a href='file/{{ file.pk }}/gcode' class="cell small-12 medium-2 button primary large">Download<br>gcode</a>
+            <a href='{% url 'printjobfile' slug=object.slug printer=file.printer.slug ext='gcode' %}' class="cell small-12 medium-2 button primary large">Download<br>gcode</a>
             {% if file.file_3mf %}
-                <a href='file/{{ file.pk }}/3mf' class="cell small-12 medium-2 button primary large">Download<br>3mf</a>
+                <a href='{% url 'printjobfile' slug=object.slug printer=file.printer.slug ext='3mf' %}' class="cell small-12 medium-2 button primary large">Download<br>3mf</a>
             {% endif %}
         {% endfor %}
         </div>
