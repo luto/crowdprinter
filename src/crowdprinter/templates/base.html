@@ -1,4 +1,7 @@
 {% include "crowdprinter/head.html" %}
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
 <div class="stldecoration top">
     {% for pfile in stls_header %}
     <div class="stlcontainer">
@@ -7,9 +10,6 @@
         </a>
     </div>
     {% endfor %}
-</div>
-<div class="content">
-    {% block content %}{% endblock %}
 </div>
 <div class="stldecoration bottom">
     {% for pfile in stls_footer %}
