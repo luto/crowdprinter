@@ -4,9 +4,11 @@ import pathlib
 import subprocess
 import tempfile
 
+BASE_DIR = pathlib.Path(__file__).parent
+
 
 def text_to_stl(text, f_stl):
-    path_lib = pathlib.Path("generate_braille_lib.scad").absolute()
+    path_lib = BASE_DIR / "generate_braille_lib.scad"
     with tempfile.NamedTemporaryFile("w", suffix=".scad", delete=False) as f_scad:
         f_scad.write(f'BrailleText1="{text.lower()}";')
         f_scad.write(f'ProfilText1="{text}";')
@@ -42,7 +44,7 @@ def stl_to_png(path_stl, f_png):
 
 
 def stl_to_gcode(path_stl, f_gcode):
-    path_pp_script = pathlib.Path("insert_m600.py").absolute()
+    path_pp_script = BASE_DIR / "insert_m600.py"
     subprocess.check_call(
         [
             "prusa-slicer",
@@ -54,15 +56,3 @@ def stl_to_gcode(path_stl, f_gcode):
             f_gcode.name,
         ]
     )
-
-
-with (
-    tempfile.NamedTemporaryFile(suffix=".stl", delete=False) as f_stl,
-    tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f_png,
-    tempfile.NamedTemporaryFile(suffix=".gcode", delete=False) as f_gcode,
-):
-    text_to_stl("Hello World", f_stl)
-    stl_to_png(f_stl.name, f_png)
-    stl_to_gcode(f_stl.name, f_gcode)
-    print(f_png.name)
-    print(f_gcode.name)

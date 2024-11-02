@@ -2,21 +2,38 @@ import datetime
 import math
 import os.path
 import random
+import tempfile
 
+from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.files.base import ContentFile
+from django.db import transaction
 from django.http import FileResponse
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
+from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic.base import View
 
 import crowdprinter.models as models
+import stl_generator
+
+from .models import PrintJob
+
+
+class SuperUserRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class PrintJobListView(ListView):
@@ -42,6 +59,63 @@ class PrintJobListView(ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(can_attempt=True).order_by("?")
+
+
+class PrintJobForm(forms.ModelForm):
+    text = forms.CharField(
+        required=True,
+        widget=forms.Textarea(attrs={"rows": 4, "cols": 40}),
+    )
+
+    class Meta:
+        model = PrintJob
+        fields = [
+            "slug",
+            "count_needed",
+            "text",
+        ]
+
+    @transaction.atomic
+    def save(self, commit=True):
+        job = super().save(commit=False)
+        slug = self.cleaned_data.get("slug")
+
+        with (
+            tempfile.NamedTemporaryFile(suffix=".stl", delete=False) as f_stl,
+            tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f_png,
+            tempfile.NamedTemporaryFile(suffix=".gcode", delete=False) as f_gcode,
+        ):
+            stl_generator.text_to_stl(self.cleaned_data.get("text"), f_stl)
+            f_stl.seek(0)
+            job.file_stl = ContentFile(f_stl.read(), name=f"{slug}.stl")
+
+            stl_generator.stl_to_png(f_stl.name, f_png)
+            f_png.seek(0)
+            job.file_render = ContentFile(f_png.read(), name=f"{slug}.png")
+
+            job.save()
+
+            for printer in [
+                models.Printer.objects.first()
+            ]:  # TODO: support multiple printers w/ presets
+                stl_generator.stl_to_gcode(f_stl.name, f_gcode)
+                f_gcode.seek(0)
+                models.PrintJobFile.objects.create(
+                    job=job,
+                    printer=printer,
+                    file_gcode=ContentFile(f_gcode.read(), name=f"{slug}.gcode"),
+                )
+
+        return job
+
+
+class PrintJobCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+    template_name = "crowdprinter/printjob_create_text.html"
+    model = PrintJob
+    form_class = PrintJobForm
+    template_name = "crowdprinter/printjob_create_text.html"
+    success_url = reverse_lazy("printjob_create_text")
+    success_message = "Job %(slug)s was created successfully"
 
 
 class MyPrintAttempts(ListView):

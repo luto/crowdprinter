@@ -26,6 +26,9 @@ urlpatterns = [
     path("", views.PrintJobListView.as_view()),
     path("myprints", views.MyPrintAttempts.as_view(), name="my_printattempts"),
     path(
+        "create/text", views.PrintJobCreateView.as_view(), name="printjob_create_text"
+    ),
+    path(
         "printjob/<slug>/",
         include(
             [
