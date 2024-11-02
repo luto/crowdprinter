@@ -58,11 +58,11 @@ class MyPrintAttempts(ListView):
 max_jobs = 3
 
 
-def can_take_job(user):
+def can_take_job(user, job):
     return (
         models.PrintAttempt.objects.filter(user=user, ended__isnull=True).count()
         < max_jobs
-    )
+    ) and user not in job.attempting_users
 
 
 class PrintJobDetailView(DetailView):
@@ -71,18 +71,16 @@ class PrintJobDetailView(DetailView):
     def get_context_data(self, object):
         context = super().get_context_data()
         if self.request.user.is_authenticated:
-            context["can_take"] = can_take_job(self.request.user)
+            context["can_take"] = can_take_job(self.request.user, self.object)
         context["max_jobs"] = max_jobs
         return context
 
 
 @login_required
 def take_print_job(request, slug):
-    if request.method == "POST" and can_take_job(request.user):
-        models.PrintAttempt.objects.create(
-            job=get_object_or_404(models.PrintJob, slug=slug),
-            user=request.user,
-        )
+    job = get_object_or_404(models.PrintJob, slug=slug)
+    if request.method == "POST" and can_take_job(request.user, job):
+        models.PrintAttempt.objects.create(job=job, user=request.user)
 
     return HttpResponseRedirect(reverse("printjob_detail", kwargs={"slug": slug}))
 
