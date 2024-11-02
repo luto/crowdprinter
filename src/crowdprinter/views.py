@@ -61,7 +61,21 @@ class PrintJobListView(ListView):
         return super().get_queryset().filter(can_attempt=True).order_by("?")
 
 
-class PrintJobForm(forms.ModelForm):
+def make_gcode_files(job):
+    for printer in [
+        # TODO: support multiple printers w/ presets
+        models.Printer.objects.first()
+    ]:
+        with (tempfile.NamedTemporaryFile(suffix=".gcode", delete=False) as f_gcode,):
+            stl_generator.stl_to_gcode(job.file_stl.path, f_gcode)
+            models.PrintJobFile.objects.create(
+                job=job,
+                printer=printer,
+                file_gcode=ContentFile(f_gcode.read(), name=f"{job.slug}.gcode"),
+            )
+
+
+class PrintJobTextForm(forms.ModelForm):
     text = forms.CharField(
         required=True,
         widget=forms.Textarea(attrs={"rows": 4, "cols": 40}),
@@ -83,7 +97,6 @@ class PrintJobForm(forms.ModelForm):
         with (
             tempfile.NamedTemporaryFile(suffix=".stl", delete=False) as f_stl,
             tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f_png,
-            tempfile.NamedTemporaryFile(suffix=".gcode", delete=False) as f_gcode,
         ):
             stl_generator.text_to_stl(self.cleaned_data.get("text"), f_stl)
             f_stl.seek(0)
@@ -94,27 +107,50 @@ class PrintJobForm(forms.ModelForm):
             job.file_render = ContentFile(f_png.read(), name=f"{slug}.png")
 
             job.save()
-
-            for printer in [
-                models.Printer.objects.first()
-            ]:  # TODO: support multiple printers w/ presets
-                stl_generator.stl_to_gcode(f_stl.name, f_gcode)
-                f_gcode.seek(0)
-                models.PrintJobFile.objects.create(
-                    job=job,
-                    printer=printer,
-                    file_gcode=ContentFile(f_gcode.read(), name=f"{slug}.gcode"),
-                )
+            make_gcode_files(job)
 
         return job
 
 
-class PrintJobCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
-    template_name = "crowdprinter/printjob_create_text.html"
+class PrintJobTextCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+    template_name = "crowdprinter/printjob_create_form.html"
     model = PrintJob
-    form_class = PrintJobForm
-    template_name = "crowdprinter/printjob_create_text.html"
+    form_class = PrintJobTextForm
     success_url = reverse_lazy("printjob_create_text")
+    success_message = "Job %(slug)s was created successfully"
+
+
+class PrintJobStlForm(forms.ModelForm):
+    class Meta:
+        model = PrintJob
+        fields = [
+            "slug",
+            "count_needed",
+            "file_stl",
+        ]
+
+    @transaction.atomic
+    def save(self, commit=True):
+        job = super().save(commit=False)
+        slug = self.cleaned_data.get("slug")
+
+        with (tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f_png,):
+            stl_generator.stl_to_png(job.file_stl.path, f_png)
+            f_png.seek(0)
+            job.file_render = ContentFile(f_png.read(), name=f"{slug}.png")
+
+            job.save()
+
+            make_gcode_files(job)
+
+        return job
+
+
+class PrintJobStlCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+    template_name = "crowdprinter/printjob_create_form.html"
+    model = PrintJob
+    form_class = PrintJobStlForm
+    success_url = reverse_lazy("printjob_create_stl")
     success_message = "Job %(slug)s was created successfully"
 
 
