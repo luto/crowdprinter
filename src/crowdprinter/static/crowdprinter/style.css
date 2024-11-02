@@ -53,28 +53,52 @@
     height: 15vh;
     width: 15vh;
 }
+
 .stlcontainer img {
     background-color: white;
-}
-.stlcontainer:nth-child(5n) img {
-    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-50deg) saturate(700%) contrast(1);
+    animation: cycleColor 10s linear infinite;
 }
 
-.stlcontainer:nth-child(5n+1) img {
-    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-80deg) saturate(700%) contrast(1);
+@keyframes cycleColor {
+    0% {
+        filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(0deg) saturate(700%) contrast(1);
+    }
+    100% {
+        filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(360deg) saturate(700%) contrast(1);
+    }
 }
 
-.stlcontainer:nth-child(5n+2) img {
-    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-120deg) saturate(700%) contrast(1);
+.stlcontainer:nth-of-type(10n+1) img {
+    animation-delay: 0s;
+}
+.stlcontainer:nth-of-type(10n+2) img {
+    animation-delay: -1s;
+}
+.stlcontainer:nth-of-type(10n+3) img {
+    animation-delay: -2s;
+}
+.stlcontainer:nth-of-type(10n+4) img {
+    animation-delay: -3s;
+}
+.stlcontainer:nth-of-type(10n+5) img {
+    animation-delay: -4s;
+}
+.stlcontainer:nth-of-type(10n+6) img {
+    animation-delay: -5s;
+}
+.stlcontainer:nth-of-type(10n+7) img {
+    animation-delay: -6s;
+}
+.stlcontainer:nth-of-type(10n+8) img {
+    animation-delay: -7s;
+}
+.stlcontainer:nth-of-type(10n+9) img {
+    animation-delay: -8s;
+}
+.stlcontainer:nth-of-type(10n+0) img {
+    animation-delay: -9s;
 }
 
-.stlcontainer:nth-child(5n+3) img {
-    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-150deg) saturate(700%) contrast(1);
-}
-
-.stlcontainer:nth-child(5n+4) img {
-    filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-190deg) saturate(700%) contrast(1);
-}
 body {
     background-color: #333;
     color: white;
