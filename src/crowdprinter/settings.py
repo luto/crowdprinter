@@ -10,23 +10,83 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
+import importlib
 import os
+
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Import the configuration module
+config_path = os.getenv("CONFIGURATION", "crowdprinter.configuration")
+try:
+    configuration = importlib.import_module(config_path)
+except ModuleNotFoundError as e:
+    if getattr(e, "name") == config_path:
+        raise ImproperlyConfigured(
+            f"Specified configuration module ({config_path}) not found. Please define src/crowdprinter/configuration.py "
+            f"per the documentation, or specify an alternate module in the CONFIGURATION environment variable."
+        )
+    raise
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+# Check for missing required configuration parameters
+for parameter in ("ALLOWED_HOSTS", "DATABASE", "SECRET_KEY"):
+    if not hasattr(configuration, parameter):
+        raise ImproperlyConfigured(
+            f"Required parameter {parameter} is missing from configuration."
+        )
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "as@59!*^-+2clpe=4y9y)=x(y1k!^lq9($u&x95z5r8m5zd1d5"
+SECRET_KEY = getattr(configuration, "SECRET_KEY")
+DEBUG = getattr(configuration, "DEBUG", False)
+ALLOWED_HOSTS = getattr(configuration, "ALLOWED_HOSTS")
+DOWNLOAD_FILE_PREFIX = getattr(configuration, "DOWNLOAD_FILE_PREFIX", "")
+DATABASES = {"default": getattr(configuration, "DATABASE")}
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Mail
+EMAIL_BACKEND = getattr(
+    configuration, "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+)
 
-ALLOWED_HOSTS = []
+# allauth
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_EMAIL_REQUIRED = getattr(configuration, "ACCOUNT_EMAIL_REQUIRED", True)
+ACCOUNT_EMAIL_VERIFICATION = getattr(
+    configuration, "ACCOUNT_EMAIL_VERIFICATION", "none"
+)
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = getattr(
+    configuration, "ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION", True
+)
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = getattr(
+    configuration, "ACCOUNT_LOGIN_ON_PASSWORD_RESET", True
+)
+LOGIN_REDIRECT_URL = getattr(configuration, "LOGIN_REDIRECT_URL", "/")
 
+# Internationalization
+# https://docs.djangoproject.com/en/2.1/topics/i18n/
+LANGUAGE_CODE = getattr(configuration, "LANGUAGE_CODE", "en-us")
+TIME_ZONE = getattr(configuration, "TIME_ZONE", "UTC")
+USE_I18N = getattr(configuration, "USE_I18N", True)
+USE_L10N = getattr(configuration, "USE_L10N", True)
+USE_TZ = getattr(configuration, "USE_TZ", True)
+
+# Static and Media files (CSS, JavaScript, Images, User Uploads)
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
+
+STATIC_URL = getattr(configuration, "STATIC_URL", "/static/")
+STATIC_ROOT = getattr(
+    configuration, "STATIC_ROOT", os.path.join(BASE_DIR, "staticfiles")
+)
+MEDIA_ROOT = getattr(configuration, "MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Application definition
 
@@ -44,9 +104,11 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "django_prometheus",
 ]
 
 MIDDLEWARE = [
+    "django_prometheus.middleware.PrometheusBeforeMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -56,6 +118,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
 
 ROOT_URLCONF = "crowdprinter.urls"
@@ -78,17 +141,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "crowdprinter.wsgi.application"
-
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
-}
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
@@ -115,53 +169,5 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-
-# allauth
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-
-LOGIN_REDIRECT_URL = "/"
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/2.1/topics/i18n/
-
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
-# Static and Media files (CSS, JavaScript, Images, User Uploads)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
-
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 # various django settings
 SITE_ID = 1  # needed by allauth
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-DOWNLOAD_FILE_PREFIX = "38c3_"
-
-try:
-    from .local_settings import *  # NOQA
-except ImportError:
-    pass
