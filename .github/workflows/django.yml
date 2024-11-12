@@ -30,6 +30,8 @@ jobs:
       uses: pre-commit/action@v3.0.1
 
     - name: Run tests
+      env:
+        CONFIGURATION: crowdprinter.configuration_test
       run: |
         cd src
         python manage.py collectstatic --no-input
