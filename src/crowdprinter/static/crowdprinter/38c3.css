@@ -1,20 +1,20 @@
 @font-face {
 	font-family: 'pilowlava';
-	src: URL('../styleguide/v1/fonts/pilowlava/Fonts/webfonts/Pilowlava-Regular.woff2')  format('woff2');
+	src: URL('Pilowlava-Regular.woff2')  format('woff2');
 }
 @font-face {
 	font-family: 'spacegrotesk';
-	src: URL('../styleguide/v1/fonts/space-grotesk-1.1.4/webfont/SpaceGrotesk-Regular.woff2') format('woff2');
+	src: URL('SpaceGrotesk-Regular.woff2') format('woff2');
 }
 
 @font-face {
 	font-family: 'space-mono';
-	src: URL('../styleguide/v1/fonts/space-mono/SpaceMono-Regular.ttf') format('truetype');
+	src: URL('SpaceMono-Regular.ttf') format('truetype');
 }
 
 @font-face {
 	font-family: 'uncut-sans';
-	src: URL('../styleguide/v1/fonts/uncut-sans/Webfonts/UncutSans-Regular.woff2') format('woff2');
+	src: URL('UncutSans-Regular.woff2') format('woff2');
 }
 
 :root {
@@ -67,12 +67,10 @@ label {
 }
 
 h1 {
-	color: var(--color-primary) !important;
-	font-family: 'pilowlava';
 	font-size: x-large;
 }
 
-h2, h3, h4 {
+h1, h2, h3, h4 {
 	color: var(--color-primary) !important;
 	font-family: 'spacegrotesk', monospace;
 }
