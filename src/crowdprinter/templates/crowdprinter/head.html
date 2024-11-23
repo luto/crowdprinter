@@ -14,6 +14,8 @@
   </div>
   <div class="top-bar-right">
     <ul class="menu">
+      <li><a href="{% url 'info' %}">Info</a></li>
+      <li><a href="{% url 'faq' %}">FAQ</a></li>
       {% if user.is_superuser %}
         <li><a href="{% url 'printjob_create_text' %}">Create Text Job</a></li>
         <li><a href="{% url 'printjob_create_stl' %}">Create STL Job</a></li>

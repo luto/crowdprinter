@@ -24,8 +24,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("", views.PrintJobListView.as_view()),
-    path("faq", views.FaqView.as_view()),
-    path("info", views.InfoView.as_view()),
+    path("faq", views.FaqView.as_view(), name="faq"),
+    path("info", views.InfoView.as_view(), name="info"),
     path("myprints", views.MyPrintAttempts.as_view(), name="my_printattempts"),
     path(
         "create/text",
