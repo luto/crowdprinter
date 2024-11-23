@@ -28,6 +28,7 @@ from django.views.generic.base import View
 
 import crowdprinter.models as models
 import stl_generator
+import stl_generator_jadyn
 
 from .models import PrintJob
 
@@ -99,8 +100,13 @@ class PrintJobTextForm(forms.ModelForm):
             tempfile.NamedTemporaryFile(suffix=".stl", delete=False) as f_stl,
             tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f_png,
         ):
-            stl_generator.text_to_stl(self.cleaned_data.get("text"), f_stl)
-            f_stl.seek(0)
+            sign = stl_generator_jadyn.Sign(
+                content=stl_generator_jadyn.SignContent(
+                    text=self.cleaned_data.get("text"),
+                    braille="⠓⠓⠓",  # TODO: use JS code on the client? rewrite in python?
+                ),
+            ).render()
+            sign.save(f_stl, angularTolerance=0.5)
             job.file_stl = ContentFile(f_stl.read(), name=f"{slug}.stl")
 
             stl_generator.stl_to_png(f_stl.name, f_png)

@@ -1,5 +1,8 @@
+cadquery==2.4.0
 django==5.1.2
 django-allauth==65.1.0
 django-prometheus==2.3.1
+# https://github.com/CadQuery/cadquery/issues/1616
+numpy==1.26.4
 psycopg==3.2.3
 whitenoise==6.7.0
