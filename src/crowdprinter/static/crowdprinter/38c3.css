@@ -90,3 +90,7 @@ h1, h2, h3, h4 {
 .content {
 	padding: 1em;
 }
+
+.menu-text {
+	font-family: pilowlava;
+}
