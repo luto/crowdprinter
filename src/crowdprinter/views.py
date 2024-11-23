@@ -163,7 +163,9 @@ class MyPrintAttempts(ListView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        context["finished_attempts"] = context["attempts"].filter(ended__isnull=False)
+        context["finished_attempts"] = context["attempts"].filter(
+            ended__isnull=False, finished=True
+        )
         context["running_attempts"] = context["attempts"].filter(ended__isnull=True)
         del context["attempts"]
         return context
