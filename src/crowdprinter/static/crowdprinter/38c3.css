@@ -66,10 +66,6 @@ label {
 	color: var(--color-highlight);
 }
 
-h1 {
-	font-size: x-large;
-}
-
 h1, h2, h3, h4 {
 	color: var(--color-primary) !important;
 	font-family: 'spacegrotesk', monospace;
@@ -93,4 +89,8 @@ h1, h2, h3, h4 {
 
 .menu-text {
 	font-family: pilowlava;
+}
+
+ul.cell {
+	margin-left: 2rem !important;
 }
