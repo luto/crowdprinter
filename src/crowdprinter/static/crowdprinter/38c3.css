@@ -1,0 +1,94 @@
+@font-face {
+	font-family: 'pilowlava';
+	src: URL('../styleguide/v1/fonts/pilowlava/Fonts/webfonts/Pilowlava-Regular.woff2')  format('woff2');
+}
+@font-face {
+	font-family: 'spacegrotesk';
+	src: URL('../styleguide/v1/fonts/space-grotesk-1.1.4/webfont/SpaceGrotesk-Regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'space-mono';
+	src: URL('../styleguide/v1/fonts/space-mono/SpaceMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'uncut-sans';
+	src: URL('../styleguide/v1/fonts/uncut-sans/Webfonts/UncutSans-Regular.woff2') format('woff2');
+}
+
+:root {
+	--color-primary: #FF5053;
+	--color-highlight: #FEF2FF;
+	--color-accent-a: #B2AAFF;
+	--color-accent-b: #6A5FDB;
+	--color-accent-c: #29114C;
+	--color-accent-d: #261A66;
+	--color-accent-e: #190B2F;
+	--color-background: #0F000A;
+}
+
+
+body {
+	font-family:  'uncut-sans', sans;
+	background-color: var(--color-background);
+	color: var(--color-accent-a);
+}
+
+thead {
+    color: var(--color-highlight);
+    background-color: var(--color-accent-b);
+}
+
+tbody {
+	background-color: inherit;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--color-accent-d);
+    color: var(--color-accent-a);
+}
+
+* {
+	scrollbar-color: var(--color-highlight) var(--color-accent-d) !important;
+}
+
+a:visited {
+	color: var(--color-highlight);
+}
+
+a {
+	color: var(--color-highlight);
+	font-weight: 500;
+}
+
+label {
+	color: var(--color-highlight);
+}
+
+h1 {
+	color: var(--color-primary) !important;
+	font-family: 'pilowlava';
+	font-size: x-large;
+}
+
+h2, h3, h4 {
+	color: var(--color-primary) !important;
+	font-family: 'spacegrotesk', monospace;
+}
+
+.printjobs img {
+	max-width: 100px;
+}
+
+.top-bar, .top-bar ul {
+	background-color: var(--color-accent-e);
+}
+
+.top-bar {
+	border-bottom: solid var(--color-accent-c) 8px;
+}
+
+.content {
+	padding: 1em;
+}

@@ -1,0 +1,29 @@
+{% include "crowdprinter/head.html" %}
+<div class="content">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+<div class="stldecoration top">
+    {% for pfile in stls_header %}
+    <div class="stlcontainer">
+        <a href="{% url 'printjob_detail' slug=pfile.slug %}">
+            <img src="{% url 'printjob_render' slug=pfile.slug %}">
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<div class="stldecoration bottom">
+    {% for pfile in stls_footer %}
+    <div class="stlcontainer">
+        <a href="{% url 'printjob_detail' slug=pfile.slug %}">
+            <img src="{% url 'printjob_render' slug=pfile.slug %}">
+        </a>
+    </div>
+    {% endfor %}
+</div>
