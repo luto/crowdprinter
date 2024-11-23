@@ -14,11 +14,16 @@
   </div>
   <div class="top-bar-right">
     <ul class="menu">
+      {% if user.is_superuser %}
+        <li><a href="{% url 'printjob_create_text' %}">Create Text Job</a></li>
+        <li><a href="{% url 'printjob_create_stl' %}">Create STL Job</a></li>
+      {% endif %}
       {% if user.is_authenticated %}
         <li><a href="{% url 'account_logout' %}">logout</a></li>
         <li><a href="{% url 'my_printattempts' %}">your prints</a></li>
       {% else %}
         <li><a href="{% url 'account_login' %}">login</a></li>
+        <li><a href="{% url 'account_signup' %}">register</a></li>
       {% endif %}
     </ul>
   </div>
