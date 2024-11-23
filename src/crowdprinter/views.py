@@ -1,7 +1,6 @@
 import datetime
 import math
 import os.path
-import random
 import tempfile
 
 from django import forms
@@ -49,17 +48,10 @@ class PrintJobListView(ListView):
         context["progress_percent"] = max(
             math.floor((done_count / max(1, all_count)) * 100), 5
         )
-        count = context["jobs"].count()
-        if count < self.paginate_by:
-            context["jobs"] = list(context["jobs"])
-            context["jobs"] = context["jobs"] * math.ceil(
-                (self.paginate_by - count) / max(1, count)
-            )
-            random.shuffle(context["jobs"])
         return context
 
     def get_queryset(self):
-        return super().get_queryset().filter(can_attempt=True).order_by("?")
+        return super().get_queryset().filter(can_attempt=True).order_by("priority", "?")
 
 
 def make_gcode_files(job):
@@ -86,6 +78,7 @@ class PrintJobTextForm(forms.ModelForm):
         model = PrintJob
         fields = [
             "slug",
+            "priority",
             "count_needed",
             "text",
         ]
@@ -126,6 +119,7 @@ class PrintJobStlForm(forms.ModelForm):
         model = PrintJob
         fields = [
             "slug",
+            "priority",
             "count_needed",
             "file_stl",
         ]

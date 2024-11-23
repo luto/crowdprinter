@@ -40,6 +40,10 @@ class PrintJob(models.Model):
     slug = models.SlugField(primary_key=True)
     file_stl = models.FileField(null=True, blank=True)
     file_render = models.FileField(null=True)
+    priority = models.PositiveIntegerField(
+        default=100,
+        help_text="Zahl von 0 bis 100. Jobs mit kleinen Zahlen werden weiter oben angezeigt.",
+    )
     count_needed = models.PositiveIntegerField(default=1)
 
     objects = PrintJobManager()
