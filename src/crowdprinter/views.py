@@ -39,7 +39,7 @@ class SuperUserRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
 
 class PrintJobListView(ListView):
     model = models.PrintJob
-    paginate_by = 6 * 4
+    paginate_by = 8
     context_object_name = "jobs"
 
     def get_context_data(self):

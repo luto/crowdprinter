@@ -78,7 +78,7 @@ h2, h3, h4 {
 }
 
 .printjobs img {
-	max-width: 100px;
+	width: 100%;
 }
 
 .top-bar, .top-bar ul {

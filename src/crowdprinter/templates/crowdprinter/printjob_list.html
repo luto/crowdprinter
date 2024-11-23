@@ -1,25 +1,20 @@
-{% include 'crowdprinter/head.html' %}
+{% extends 'base.html' %}
 
+{% block content %}
+<div class="grid-x grid-margin-x">
+    <h1 class="cell">Info</h1>
+    <p class="cell">
+        asdasdsad
+    </p>
+</div>
 <div class="myprogressbar">
     <div class="myprogress" style="width:{{ progress_percent }}%"></div>
 </div>
-<table class="printjobs">
-    <thead>
-        <tr>
-            <th>Bild</th>
-            <th>Name</th>
-        </tr>
-    </thead>
+<div class="printjobs grid-x grid-padding-y grid-padding-x">
 {% for job in jobs %}
-<tr>
-    <td>
-        <a href="{% url 'printjob_detail' slug=job.slug %}">
-            <img src="{% url 'printjob_render' slug=job.slug %}">
-        </a>
-    </td>
-    <td>
-        {{ job.slug }}
-    </td>
-</tr>
+    <a class="cell small-6 large-3 text-center" href="{% url 'printjob_detail' slug=job.slug %}">
+        <img src="{% url 'printjob_render' slug=job.slug %}">
+    </a>
 {% endfor %}
-</table>
+</div>
+{% endblock %}
