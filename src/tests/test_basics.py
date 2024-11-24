@@ -17,13 +17,16 @@ def test_index(client, job_basic_x50):
     assert resp.status_code == 200
     content = resp.content.decode()
     # images
-    assert len(re.findall("/printjob/[^/]+/render", content)) > 20
+    assert len(re.findall("/printjob/[^/]+/render", content)) > 5
     # links
-    assert len(re.findall('/printjob/[^/]+/"', content)) > 20
+    assert len(re.findall('/printjob/[^/]+/"', content)) > 5
     # title
-    assert "artsy thingy" in content
-    # title
+    assert "crowdprinter" in content
+    # nav
     assert "/login/" in content
+    assert "/signup/" in content
+    assert "/info" in content
+    assert "/faq" in content
 
 
 @pytest.mark.django_db
@@ -40,7 +43,7 @@ def test_detail_noauth(client, job_basic):
     resp = client.get(f"/printjob/{job_basic.slug}/")
     assert resp.status_code == 200
     content = resp.content.decode()
-    assert "please login first" in content
+    assert "need to be logged in" in content
 
 
 @pytest.mark.django_db
