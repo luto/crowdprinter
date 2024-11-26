@@ -32,6 +32,8 @@ def stl_to_png(path_stl, f_png):
         f_scad.flush()
         subprocess.check_call(
             [
+                "xvfb-run",
+                "-a",
                 "openscad",
                 f_scad.name,
                 "-o",
