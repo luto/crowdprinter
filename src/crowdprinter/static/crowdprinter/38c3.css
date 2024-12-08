@@ -1,97 +1,172 @@
-@font-face {
-	font-family: 'pilowlava';
-	src: URL('Pilowlava-Regular.woff2')  format('woff2');
-}
-@font-face {
-	font-family: 'spacegrotesk';
-	src: URL('SpaceGrotesk-Regular.woff2') format('woff2');
+.menu-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
 }
 
-@font-face {
-	font-family: 'space-mono';
-	src: URL('SpaceMono-Regular.ttf') format('truetype');
+.menu-bar li {
+	float: left;
+	margin: 10px;
 }
 
-@font-face {
-	font-family: 'uncut-sans';
-	src: URL('UncutSans-Regular.woff2') format('woff2');
+.messages {
+  	position: relative;
+ 	padding: 1em 1em 0 1em;
 }
 
-:root {
-	--color-primary: #FF5053;
-	--color-highlight: #FEF2FF;
-	--color-accent-a: #B2AAFF;
-	--color-accent-b: #6A5FDB;
-	--color-accent-c: #29114C;
-	--color-accent-d: #261A66;
-	--color-accent-e: #190B2F;
-	--color-background: #0F000A;
-}
-
-
-body {
-	font-family:  'uncut-sans', sans;
-	background-color: var(--color-background);
-	color: var(--color-accent-a);
-}
-
-thead {
-    color: var(--color-highlight);
-    background-color: var(--color-accent-b);
-}
-
-tbody {
-	background-color: inherit;
-}
-
-tbody tr:nth-child(even) {
-    background-color: var(--color-accent-d);
-    color: var(--color-accent-a);
-}
-
-* {
-	scrollbar-color: var(--color-highlight) var(--color-accent-d) !important;
-}
-
-a:visited {
-	color: var(--color-highlight);
-}
-
-a {
-	color: var(--color-highlight);
-	font-weight: 500;
-}
-
-label {
-	color: var(--color-highlight);
-}
-
-h1, h2, h3, h4 {
-	color: var(--color-primary) !important;
-	font-family: 'spacegrotesk', monospace;
-}
-
-.printjobs img {
-	width: 100%;
-}
-
-.top-bar, .top-bar ul {
-	background-color: var(--color-accent-e);
-}
-
-.top-bar {
-	border-bottom: solid var(--color-accent-c) 8px;
-}
-
-.content {
+.messages .callout{
+	border-width: 1px;
+	border-style: solid;
 	padding: 1em;
 }
 
-.menu-text a {
-	font-family: pilowlava;
-	color: var(--color-primary);
+.messages .success{
+  	color: lawngreen;
+	border-color: lawngreen;
 }
 
-ul.cell {
-	margin-left: 2rem !important;
+.messages .error{
+  	color: red;
+	border-color: red;
+}
+
+.messages .warning{
+  	color: orange;
+  	border-color: orange;
+}
+
+.main {
+	padding: 1.5em 1em;
+}
+
+.printjobs {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: flex-start;
+	gap: 0.5em;
+}
+
+.printjobs > a > img{
+	width: 15em;
+}
+
+.printjobs > a > img:hover{
+	opacity: 0.9;
+}
+
+.printjobdetail {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 2em;
+}
+
+.printjobdetail > .preview > img{
+	width: 20em;
+}
+
+.printjobdetail > .info{
+	width: 20em;
+	flex-grow: 1;
+}
+
+.printjobdetail > .info{
+	width: 20em;
+	flex-grow: 1;
+}
+
+.printjobdetail > .info > .buttons{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 0.5em;
+}
+
+.printjobdetail > .info > table{
+	margin-top: 1em;
+	width: 100%;
+	text-align: left;
+}
+
+.printjoblist {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 2em;
+}
+
+.printjoblist > *{
+	flex-grow: 2;
+}
+
+.printjoblist table{
+	margin-top: 1em;
+	width: 100%;
+	text-align: left;
+}
+
+.printjoblist table img{
+	width: 10em;
+}
+
+.progressbar{
+	padding: 0.5em;
+}
+
+.progressbar progress{
+	width: 100%;
+	height: 25px;
+	border: none;
+}
+
+.progressbar label{
+	position: absolute;
+	text-align: center;
+	left: 0;
+	right: 0;
+}
+
+.progressbar progress {
+	background-color: #B2AAFF;
+	accent-color: #FF5053;
+}
+
+.progressbar progress::-webkit-progress-bar {
+	background-color: #B2AAFF;
+}
+
+.progressbar progress::-webkit-progress-value {
+	background-color: #FF5053;
+}
+
+.progressbar progress::-moz-progress-bar {
+	background-color: #FF5053;
+}
+
+@media (prefers-color-scheme: dark) {
+	.progressbar progress {
+		background-color: #261A66;
+		accent-color: #FF5053;
+	}
+
+	.progressbar progress::-webkit-progress-bar {
+		background-color: #261A66;
+	}
+
+	.progressbar progress::-webkit-progress-value {
+		background-color: #FF5053;
+	}
+
+	.progressbar progress::-moz-progress-bar {
+		background-color: #FF5053;
+	}
 }

@@ -1,61 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="printjobdetail grid-x grid-margin-x">
-    <div class="cell small-12 medium-3 grid-y">
-        <img src="{% url 'printjob_render' slug=job.slug %}">
-    </div>
-    <div class="cell auto">
-        {% if request.user in job.attempting_users %}
-        <h1>you're supposed to be printing this!</h1>
-        ... go get to work ;)
-        <div class="grid-x grid-margin-x" style="margin-top: 1rem">
-            <form action="{% url 'printjob_give_back' slug=job.slug %}" method="POST" class="cell small-6 medium-2">
-                {% csrf_token %}
-            <button class="button success large" type="submit">give it back</a>
-            </form>
-            <form action="{% url 'printjob_done' slug=job.slug %}" method="POST" class="cell small-6 medium-2">
-                {% csrf_token %}
-            <button class="button success large" type="submit">I'm done</a>
-            </form>
+    <div class="printjobdetail">
+        <div class="preview">
+            <img src="{% url 'printjob_render' slug=job.slug %}" alt="3D Render des {{ job.slug }}.stl">
         </div>
-        {% if job.file_stl %}
-        <div class="grid-x grid-margin-x" style="margin-top: 1rem">
-            <span class="cell">generic:</span>
-            <a href='{% url 'printjob_stl' slug=job.slug %}' class="cell small-12 medium-2 button primary large">Download<br>STL</a>
-        </div>
-        {% endif %}
-        <div class="grid-x grid-margin-x" style="margin-top: 1rem">
-        {% for file in job.files.all %}
-            <span class="cell">{{ file.printer.name }}:</span>
-            <a href='{% url 'printjobfile' slug=job.slug printer=file.printer.slug ext='gcode' %}' class="cell small-12 medium-2 button primary large">Download<br>gcode</a>
-            {% if file.file_3mf %}
-                <a href='{% url 'printjobfile' slug=job.slug printer=file.printer.slug ext='3mf' %}' class="cell small-12 medium-2 button primary large">Download<br>3mf</a>
+        <div class="info">
+            {% if request.user in job.attempting_users %}
+                <h1>Drucke dieses Teil</h1>
+                <p>Auf gehts!</p>
+                <p>Information zum Drucken und Beispiele findest du im <a href="{% url 'faq' %}">FAQ</a>.</p>
+                <div class="buttons">
+                    <form action="{% url 'printjob_done' slug=job.slug %}" method="POST" class="cell small-6 medium-2">
+                        {% csrf_token %}
+                        <button class="button success large" type="submit">Ich bin fertig</button>
+                    </form>
+                    <form action="{% url 'printjob_give_back' slug=job.slug %}" method="POST"
+                          class="cell small-6 medium-2">
+                        {% csrf_token %}
+                        <button class="button error large" type="submit">Abbrechen</button>
+                    </form>
+                </div>
+                <table>
+                    <tr>
+                        <th>Drucker</th>
+                        <th>Downloads</th>
+                    </tr>
+                    {% if job.file_stl %}
+                        <tr>
+                            <td>Generisch</td>
+                            <td><a href='{% url 'printjob_stl' slug=job.slug %}'>STL</a></td>
+                        </tr>
+                    {% endif %}
+                    {% for file in job.files.all %}
+                        <td>{{ file.printer.name }}</td>
+                        <td>
+                            <a href='{% url 'printjobfile' slug=job.slug printer=file.printer.slug ext='gcode' %}'>gcode</a>
+                            {% if file.file_3mf %}
+                                <a href='{% url 'printjobfile' slug=job.slug printer=file.printer.slug ext='3mf' %}'>3mf</a>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </table>
+            {% elif not request.user.is_authenticated %}
+                <h1>Bitte melde dich an</h1>
+                <a href="{% url 'account_login' %}" class="button large">Login</a>
+                <a href="{% url 'account_signup' %}" class="button large">Registrieren</a>
+            {% elif not job.can_attempt %}
+                <h1>Keine Drucke mehr nötig</h1>
+                <p>Es befinden sich bereits alle benötigten Teile im Druck, schau doch mal hier: <a href="/">Home</a>
+                </p>
+            {% elif job.finished %}
+                <h1>Drucken abgeschlossen</h1>
+                <p>Es wurden bereits genug gedruckt, schau doch mal hier: <a href="/">Home</a></p>
+            {% else %}
+                <h1>Mehr Drucke benötigt</h1>
+                {% if can_take_job %}
+                    <form action="{% url 'printjob_take' slug=job.slug %}" method="POST">
+                        {% csrf_token %}
+                        <button class="button success large" type="submit">Drucken!</button>
+                    </form>
+                {% else %}
+                    Dir wurden bereits {{ max_jobs }} Teile zugeordnet, bitte beende diese Drucke bevor du dir neue
+                    Teile zuweist.
+                {% endif %}
             {% endif %}
-        {% endfor %}
         </div>
-        {% elif not request.user.is_authenticated %}
-        <h1>You need to be logged in to view this page.</h1>
-        <a href="{% url 'account_login' %}" class="button large">Login</a>
-        <a href="{% url 'account_signup' %}" class="button large">Register</a>
-        {% elif not job.can_attempt %}
-        <h1>too many people are printing this</h1>
-        ... check back later or chose a different file.
-        {% elif job.finished %}
-        <h1>this part has been finished</h1>
-        ... how did you get here?
-        {% else %}
-        <h1>more of this part are needed</h1>
-        {% if can_take_job %}
-        <form action="{% url 'printjob_take' slug=job.slug %}" method="POST">
-            {% csrf_token %}
-            <button class="button success large" type="submit">print one</a>
-        </form>
-        {% else %}
-        ... but you are already printing {{ max_jobs }} parts, so you cannot take
-        another one. Please finish them frist.
-        {% endif %}
-        {% endif %}
     </div>
-</div>
 {% endblock %}
