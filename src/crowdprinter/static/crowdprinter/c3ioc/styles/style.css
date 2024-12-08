@@ -1,0 +1,522 @@
+/**
+  *
+  * DO NOT MODIFY THE CSS FILE DIRECTLY. The CSS is generated from the SCSS file. Make
+  * all changes in the SCSS files and then regenerate this CSS file. All changes made
+  * this CSS file will be lost.
+  *
+  * To regenerate the CSS file install Sass and then run:
+  * sass style.scss style.css
+  *
+  */
+/* font converted using font-converter.net. thank you! */
+@font-face {
+  font-family: "SylexiadSansMedium-Bold";
+  src: url("../fonts/SylexiadSansMedium-Bold.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/SylexiadSansMedium-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/SylexiadSansMedium-Bold.otf") format("opentype"), url("../fonts/SylexiadSansMedium-Bold.svg") format("svg"), url("../fonts/SylexiadSansMedium-Bold.ttf") format("truetype"), url("../fonts/SylexiadSansMedium-Bold.woff") format("woff"), url("../fonts/SylexiadSansMedium-Bold.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SylexiadSansMedium";
+  src: url("../fonts/SylexiadSansMedium.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/SylexiadSansMedium.eot?#iefix") format("embedded-opentype"), url("../fonts/SylexiadSansMedium.otf") format("opentype"), url("../fonts/SylexiadSansMedium.svg") format("svg"), url("../fonts/SylexiadSansMedium.ttf") format("truetype"), url("../fonts/SylexiadSansMedium.woff") format("woff"), url("../fonts/SylexiadSansMedium.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AtkinsonHyperlegible-Bold";
+  src: url("../fonts/Atkinson-Hyperlegible-Bold.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Atkinson-Hyperlegible-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/Atkinson-Hyperlegible-Bold.otf") format("opentype"), url("../fonts/Atkinson-Hyperlegible-Bold.svg") format("svg"), url("../fonts/Atkinson-Hyperlegible-Bold.ttf") format("truetype"), url("../fonts/Atkinson-Hyperlegible-Bold.woff") format("woff"), url("../fonts/Atkinson-Hyperlegible-Bold.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AtkinsonHyperlegible-Regular";
+  src: url("../fonts/Atkinson-Hyperlegible-Regular.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Atkinson-Hyperlegible-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/Atkinson-Hyperlegible-Regular.otf") format("opentype"), url("../fonts/Atkinson-Hyperlegible-Regular.svg") format("svg"), url("../fonts/Atkinson-Hyperlegible-Regular.ttf") format("truetype"), url("../fonts/Atkinson-Hyperlegible-Regular.woff") format("woff"), url("../fonts/Atkinson-Hyperlegible-Regular.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "OpenDyslexicThree-Bold";
+  src: url("../fonts/OpenDyslexic3-Bold.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/OpenDyslexic3-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/OpenDyslexic3-Bold.otf") format("opentype"), url("../fonts/OpenDyslexic3-Bold.svg") format("svg"), url("../fonts/OpenDyslexic3-Bold.ttf") format("truetype"), url("../fonts/OpenDyslexic3-Bold.woff") format("woff"), url("../fonts/OpenDyslexic3-Bold.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "OpenDyslexicThree-Regular";
+  src: url("../fonts/OpenDyslexic3-Regular.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/OpenDyslexic3-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/OpenDyslexic3-Regular.otf") format("opentype"), url("../fonts/OpenDyslexic3-Regular.svg") format("svg"), url("../fonts/OpenDyslexic3-Regular.ttf") format("truetype"), url("../fonts/OpenDyslexic3-Regular.woff") format("woff"), url("../fonts/OpenDyslexic3-Regular.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ubuntu Regular";
+  src: url("../fonts/Ubuntu-R.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu-R.eot?#iefix") format("embedded-opentype"), url("../fonts/Ubuntu-R.otf") format("opentype"), url("../fonts/Ubuntu-R.svg") format("svg"), url("../fonts/Ubuntu-R.ttf") format("truetype"), url("../fonts/Ubuntu-R.woff") format("woff"), url("../fonts/Ubuntu-R.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ubuntu-Light";
+  src: url("../fonts/Ubuntu-L.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu-L.eot?#iefix") format("embedded-opentype"), url("../fonts/Ubuntu-L.otf") format("opentype"), url("../fonts/Ubuntu-L.svg") format("svg"), url("../fonts/Ubuntu-L.ttf") format("truetype"), url("../fonts/Ubuntu-L.woff") format("woff"), url("../fonts/Ubuntu-L.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ubuntu-Medium";
+  src: url("../fonts/Ubuntu-M.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu-M.eot?#iefix") format("embedded-opentype"), url("../fonts/Ubuntu-M.otf") format("opentype"), url("../fonts/Ubuntu-M.svg") format("svg"), url("../fonts/Ubuntu-M.ttf") format("truetype"), url("../fonts/Ubuntu-M.woff") format("woff"), url("../fonts/Ubuntu-M.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ubuntu-Bold";
+  src: url("../fonts/Ubuntu-B.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu-B.eot?#iefix") format("embedded-opentype"), url("../fonts/Ubuntu-B.otf") format("opentype"), url("../fonts/Ubuntu-B.svg") format("svg"), url("../fonts/Ubuntu-B.ttf") format("truetype"), url("../fonts/Ubuntu-B.woff") format("woff"), url("../fonts/Ubuntu-B.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+/* Fonts */
+.font-Ubuntu {
+  font-family: "Ubuntu Regular", sans-serif;
+  font-size: 14pt;
+}
+.font-Ubuntu h1 {
+  font-family: "Ubuntu-Bold";
+}
+.font-Ubuntu h2,
+.font-Ubuntu .lang {
+  font-family: "Ubuntu-Medium";
+}
+
+@media (prefers-color-scheme: dark) {
+  .font-Ubuntu {
+    font-family: "Ubuntu-Medium";
+  }
+  .font-Ubuntu h1 {
+    font-family: "Ubuntu-Light";
+  }
+  .font-Ubuntu h2,
+  .font-Ubuntu .lang {
+    font-family: "Ubuntu Regular";
+  }
+}
+.font-SylexiadSans {
+  font-family: SylexiadSansMedium, sans-serif;
+  font-size: 16.8pt;
+}
+.font-SylexiadSans h2,
+.font-SylexiadSans .lang {
+  font-family: SylexiadSansMedium-Bold, sans-serif;
+}
+
+.font-AtkinsonHyperlegible {
+  font-family: AtkinsonHyperlegible-Regular, sans-serif;
+  font-size: 15.2pt;
+}
+.font-AtkinsonHyperlegible h2,
+.font-AtkinsonHyperlegible .lang {
+  font-family: AtkinsonHyperlegible-Bold, sans-serif;
+}
+
+.font-OpenDyslexicThree {
+  font-family: OpenDyslexicThree-Regular, sans-serif;
+  font-size: 12.4pt;
+}
+.font-OpenDyslexicThree h2,
+.font-OpenDyslexicThree .lang {
+  font-family: OpenDyslexicThree-Bold, sans-serif;
+}
+
+.font-serif {
+  font-family: serif;
+}
+.font-serif h2,
+.font-serif .lang {
+  font-family: serif;
+  font-weight: bold;
+}
+
+.font-sans {
+  font-family: sans-serif;
+}
+.font-sans h2,
+.font-sans .lang {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+/* rc3
+$bg_light: #efefef;
+$bg_light_2: #e2e2e2;
+$color_light: #333333;
+$a_light: #763bff;
+$a_hover_light: #5f0096;
+$secondary_light: #c31fba;
+$tertiary_light: #6600ea;
+$light_h: #bf1eb7;
+$menu_hover_light: #5b00d2;
+
+$bg_dark: #040012;
+$gb_dark_2: black;
+$color_dark: #ccc;
+$a_dark: #2ea0ff;
+$a_hover_dark: #b162f4;
+$dark_h: #e20cef;
+$menu_hover_dark: #8432ee;
+$tertiary_dark: #6600ea;
+*/
+body {
+  font-size: 13pt;
+  line-height: 1.5em;
+  margin: 0 auto;
+  background-color: #efefef;
+  color: #333333;
+}
+
+.background-grid {
+  background-image: url("../../38c3/grids/grid-12x12.svg");
+}
+
+body > * {
+  background: #efefef;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+a {
+  text-decoration: none;
+  color: #29114C;
+}
+
+a:hover,
+a:focus {
+  color: #29114C;
+}
+
+header {
+  position: relative;
+  padding-top: 1.5em;
+  background-image: url("../../38c3/blobs/blob-collision-rect-5_red.svg");
+  background-size: 100%;
+  background-position: top;
+}
+
+main { /* wraps the German and English version*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+main > * {
+  margin: 0 1em;
+  flex-basis: 25rem;
+  flex-grow: 1;
+}
+
+.blob-1 {
+  position: fixed;
+  background-image: url("../../38c3/blobs/blob-freeform-6.svg");
+  background-position: top right;
+  background-size: 150%;
+  width: 25em;
+  height: 25em;
+  left: 0;
+  bottom: 0;
+  background-color: unset;
+  z-index: -1;
+}
+
+.blob-2 {
+  position: fixed;
+  background-image: url("../../38c3/blobs/blob-freeform-5_red.svg");
+  background-position: bottom left;
+  background-size: 150%;
+  width: 25em;
+  height: 25em;
+  top: 0;
+  right: 0;
+  background-color: unset;
+  z-index: -1;
+}
+
+.blob-3 {
+  position: fixed;
+  background-image: url("../../38c3/blobs/blob-freeform-1_red.svg");
+  background-position: top right;
+  background-size: 150%;
+  width: 30em;
+  height: 30em;
+  left: 0;
+  bottom: 0;
+  background-color: unset;
+  z-index: -2;
+}
+
+header h1 {
+  display: inline-block;
+  background: linear-gradient(to right, #6A5FDB, #29114C);
+  padding: 0.4em;
+  border-top-left-radius: 0.75em;
+  border-bottom-right-radius: 0.75em;
+  color: white;
+  line-height: 1em;
+  margin: 0.5em;
+}
+
+h1 {
+  color: #29114C;
+  line-height: 1em;
+  margin: 0;
+}
+
+h2 {
+  color: #29114C;
+}
+
+ul {
+  background: #e2e2e2;
+  border-width: 3px 0 0 0;
+  border-style: solid;
+  -o-border-image: linear-gradient(to right, #6A5FDB, #29114C) 100% 1;
+  border-image: linear-gradient(to right, #6A5FDB, #29114C) 100% 1;
+}
+
+footer {
+  background-color: #e2e2e2;
+  text-align: center;
+  padding: 1em;
+}
+
+.lang {
+  font-size: 1.2em;
+}
+
+.skiplink {
+  position: absolute;
+  bottom: -2em;
+  right: 1em;
+}
+
+/* Utility classes */
+.display-none {
+  display: none;
+}
+
+.js {
+  display: none;
+}
+
+/* Choosing fonts via JS */
+#accessibility-options {
+  z-index: 100;
+}
+#accessibility-options button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: inherit;
+  color: #efefef;
+  background-color: #29114C;
+  border: 0;
+  border-bottom-left-radius: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.4em 0.6em;
+}
+#accessibility-options button:hover {
+  background-color: #6A5FDB;
+  cursor: pointer;
+}
+
+#accessibility-options > fieldset {
+  color: #333333;
+  background: #efefef;
+  border-radius: 15px;
+  border: 1px solid #29114C;
+}
+#accessibility-options > fieldset ul {
+  -moz-columns: 3 150pt;
+  columns: 3 150pt;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #efefef;
+}
+#accessibility-options > fieldset li {
+  min-width: 13em;
+  list-style: none;
+  line-height: 0;
+  height: 22pt;
+  display: block;
+}
+#accessibility-options > fieldset legend {
+  width: auto;
+  color: inherit;
+  padding: 0.2rem 0.7rem;
+  background-color: inherit;
+  border: 1px solid #29114C;
+  border-radius: 15px;
+}
+#accessibility-options > fieldset label:hover {
+  cursor: pointer;
+}
+#accessibility-options > fieldset input[type=radio] {
+  margin-right: 5pt;
+}
+
+/* Choosing fonts via CSS (no-JS fallback)*/
+#toggle:checked ~ .fontchange {
+  font-family: OpenDyslexicThree-Regular;
+}
+#toggle:checked ~ .fontchange .lang {
+  font-family: OpenDyslexicThree-Bold;
+}
+#toggle:checked ~ .fontchange h2 {
+  font-family: OpenDyslexicThree-Bold;
+}
+
+/* Media queries */
+@media only screen and (min-width: 50em) {
+  body {
+    max-width: 900pt;
+  }
+  main > * {
+    flex-basis: 20rem;
+  }
+  header {
+    background-size: 100%;
+  }
+  .skiplink {
+    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+    box-sizing: border-box;
+  }
+  .skiplink:focus {
+    -webkit-clip-path: none;
+    clip-path: none;
+  }
+  #accessibility-options {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: inherit;
+    color: #efefef;
+    background-color: #29114C;
+    border: 0;
+    border-bottom-left-radius: 1.5em;
+    font-weight: bold;
+    padding: 0 0 0 0.5em;
+  }
+  #accessibility-options > fieldset {
+    margin: auto;
+    color: #efefef;
+    background-color: #29114C;
+  }
+  #accessibility-options > fieldset legend {
+    border: 0;
+    padding-top: 2em;
+    padding-left: 0;
+    margin-left: 0;
+  }
+  #accessibility-options > fieldset ul {
+    -moz-columns: 1;
+    columns: 1;
+    color: #efefef;
+    background-color: #29114C;
+    margin: 0;
+  }
+  #accessibility-options > fieldset li:hover {
+    background-color: #6A5FDB;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0F000A;
+    color: #FEF2FF;
+  }
+  body > * {
+    background: #0F000A;
+  }
+  header {
+    background-image: url("../../38c3/blobs/blob-collision-rect-5_red.svg");
+    background-size: 100%;
+  }
+  .blob-3 {
+    background-image: url("../../38c3/blobs/blob-freeform-1_filled.svg");
+  }
+  a {
+    text-decoration: none;
+    color: #FF5053;
+  }
+  a:hover,
+  a:focus {
+    color: #FF5053;
+  }
+  header h1 {
+    color: #FEF2FF;
+  }
+  h1 {
+    color: #FF5053;
+  }
+  h2 {
+    color: #FF5053;
+  }
+  ul {
+    background: black;
+  }
+  #accessibility-options button {
+    color: #FEF2FF;
+  }
+  #accessibility-options button:hover {
+    background-color: #B2AAFF;
+  }
+  #accessibility-options > fieldset {
+    color: #FEF2FF;
+    background: #0F000A;
+  }
+  #accessibility-options > fieldset ul {
+    background: #0F000A;
+  }
+  #accessibility-options > fieldset legend {
+    border: 1px solid #B2AAFF;
+  }
+  footer {
+    background: black;
+  }
+}
+@media (prefers-color-scheme: dark) and (min-width: 50em) {
+  #accessibility-options {
+    background: #B2AAFF;
+  }
+  #accessibility-options > fieldset {
+    color: black;
+    background: #B2AAFF;
+    border-color: #B2AAFF;
+  }
+  #accessibility-options > fieldset ul {
+    color: black;
+    background: #B2AAFF;
+  }
+  #accessibility-options > fieldset li:hover {
+    background-color: #B2AAFF;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

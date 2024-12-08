@@ -1,49 +1,66 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="grid-x grid-margin-x">
-    <h1 class="cell">Datenschutz</h1>
-    <p class="cell">
-Nachdem es sich hierbei um ein Projekt von Privatpersonen handelt, findet die DSGVO keine Anwendung.
-
-Wir erklären hier: welche Daten speicher wir? Warum speichern wir sie? Wann löschen wir sie?
-  </p>
-    <h2 class="cell">Was speichern wir?</h2>
-        <p class="cell">
-Die Applikation ("crowdprinter") speichert:
-<ul>
-    <li>E-Mail</li>
-    <li>Login</li>
-    <li>Passwort</li>
-</ul>
-Die Website verwendet kein Tracking.
-
-Der Webserver loggt:
+    <h1>Datenschutz</h1>
+    <p>
+        Nachdem es sich hierbei um ein Projekt von Privatpersonen handelt, findet die DSGVO keine Anwendung.
+        <br>
+        Wir erklären hier: welche Daten speicher wir? Warum speichern wir sie? Wann löschen wir sie?
+    </p>
+    <h2>Was speichern wir?</h2>
+    <p>
+        Die Applikation ("crowdprinter") speichert:
     <ul>
-    <li>Client IP</li>
-    <li>Zugriffszeit</li>
-    <li>besuchte URLs</li>
-    <li>HTTP Methode</li>
-    <li>HTTP Status</li>
-    <li>User Agent (Betriebssystem, Browser)</li>
-    <li>gegebenenfalls serverseitige Fehlermeldungen</li>
+        <li>E-Mail</li>
+        <li>Login</li>
+        <li>Passwort</li>
+        <li>Von dir gedruckte Teile</li>
+    </ul>
+    Die Website verwendet folgende Cookies und speichert diese Daten im "Local Storage":
+    <ul>
+        <li>Cookies
+            <ul style="border: none">
+                <li><code>csrftoken</code> - Sicherheitsmechanismus</li>
+                <li><code>sessionid</code> - Serverseitige zuordnung von Usern</li>
+            </ul>
+        </li>
+        <li>Local Storage
+            <ul style="border: none">
+                <li><code>background-blobs</code> - Lokale Accessibility Einstellungen</li>
+                <li><code>background-grid</code> - Lokale Accessibility Einstellungen</li>
+                <li><code>font</code> - Lokale Accessibility Einstellungen</li>
+                <li><code>theme</code> - Lokale Accessibility Einstellungen</li>
+            </ul>
+        </li>
+    </ul>
+
+    Der Webserver loggt:
+    <ul>
+        <li>Client IP</li>
+        <li>Zugriffszeit</li>
+        <li>besuchte URLs</li>
+        <li>HTTP Methode</li>
+        <li>HTTP Status</li>
+        <li>User Agent (Betriebssystem, Browser)</li>
+        <li>gegebenenfalls serverseitige Fehlermeldungen</li>
     </ul>
     Logs werden, außer bei besonderen Gegebenheiten, für 90 Tage gespeichert.
-  </p>
-    <h2 class="cell">Warum speichern wir diese Daten?</h2>
-        <p class="cell">
-<b>Login, Email, Passwort:</b>
-Diese Daten benötigen wir zur Verwaltung eines Accounts für die Downloads. Ohne diesen Account können wir das verteilte Druck-Projekt nicht organisieren.
-Mit dem Account können wir Listen und Druckdateien der (selbst erstellten) Schilder zur Verfügung stellen.
-
-<b>Logging:</b>
-Der Webserver loggt Fehlermeldungen. Diese Daten verwenden wir zum Schutz der Infrastruktur und um Fehler in der Applikation zu analysieren (Qualitätssicherung).
-
-<b>Text der Schilder:</b>
-Wenn du ein Schild vorschlägst, speichern wir deinen Textvorschlag und erstellen daraus die Druckdateien.
-Ohne diese Daten können wir den Schildvorschlag nicht verarbeiten.
-
-  </p>
-
-</div>
+    </p>
+    <h2>Warum speichern wir diese Daten?</h2>
+    <p>
+        <b>Login, E-Mail, Passwort:</b>
+        Diese Daten benötigen wir zur Verwaltung eines Accounts für die Downloads. Ohne diesen Account können wir
+        das verteilte Druck-Projekt nicht organisieren.
+        Mit dem Account können wir Listen und Druckdateien der (selbst erstellten) Schilder zur Verfügung stellen.
+    </p>
+    <p>
+        <b>Logging:</b>
+        Der Webserver loggt Fehlermeldungen. Diese Daten verwenden wir zum Schutz der Infrastruktur und um Fehler in
+        der Applikation zu analysieren (Qualitätssicherung).
+    </p>
+    <p>
+        <b>Text der Schilder:</b>
+        Wenn du ein Schild vorschlägst, speichern wir deinen Textvorschlag und erstellen daraus die Druckdateien.
+        Ohne diese Daten können wir den Schildvorschlag nicht verarbeiten.
+    </p>
 {% endblock %}
