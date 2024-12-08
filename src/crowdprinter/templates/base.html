@@ -1,15 +1,25 @@
+{% load static %}
 {% include "crowdprinter/head.html" %}
-<div class="content">
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div data-alert class="callout {% if message.tags %}{{ message.tags }}{% endif %}">
-            {{ message }}
+        <div class="fontchange">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p data-alert class="callout {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <div class="main">
+                {% block content %}{% endblock %}
+            </div>
+            <footer>
+                <a href="{% url 'inprint' %}">Impressum</a> - <a href="{% url 'dataprotection' %}">Datenschutz</a>{% if user.is_superuser %} - <a href="/admin">Admin</a>{% endif %}
+            </footer>
         </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% block content %}{% endblock %}
-</div>
-</body>
+        <div class="display-none blobs blob-1"></div>
+        <div class="display-none blobs blob-2"></div>
+        <div class="display-none blobs blob-3"></div>
+	    <script src="{% static 'crowdprinter/c3ioc/main.js' %}"></script>
+    </body>
 </html>

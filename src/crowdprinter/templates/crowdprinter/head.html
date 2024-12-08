@@ -1,34 +1,143 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>c3tactile - Crowdprinter</title>
-	<link rel="stylesheet" href="{% static 'vendor/foundation.min.css' %}">
-	<link rel="stylesheet" href="{% static 'crowdprinter/38c3.css' %}">
-	<script src="{% static 'vendor/foundation.min.js' %}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>c3tactile - Crowdprinter</title>
+    <link rel="stylesheet" href="{% static 'crowdprinter/38c3.css' %}">
+    <link rel="stylesheet" href="{% static 'crowdprinter/c3ioc/styles/style.css' %}">
+    <meta lang="de">
 </head>
-<div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
-      <li class="menu-text"><a href="/">c3tactile - Crowdprinter</a></li>
-    </ul>
-  </div>
-  <div class="top-bar-right">
-    <ul class="menu">
-      <li><a href="{% url 'info' %}">Info</a></li>
-      <li><a href="{% url 'faq' %}">FAQ</a></li>
-      {% if user.is_superuser %}
-        <li><a href="{% url 'printjob_create_text' %}">Create Text Job</a></li>
-        <li><a href="{% url 'printjob_create_stl' %}">Create STL Job</a></li>
-      {% endif %}
-      {% if user.is_authenticated %}
-        <li><a href="{% url 'account_logout' %}">logout</a></li>
-        <li><a href="{% url 'my_printattempts' %}">your prints</a></li>
-      {% else %}
-        <li><a href="{% url 'account_login' %}">login</a></li>
-        <li><a href="{% url 'account_signup' %}">register</a></li>
-      {% endif %}
-    </ul>
-  </div>
-</div>
+<body>
+<header class="font-Ubuntu">
+    <div class="js" id="accessibility-options">
+        <button type="button">
+            Accessibility&nbsp;Options
+        </button>
+        <fieldset class="display-none" id="font-selection">
+            <legend class="font-Ubuntu">Font</legend>
+            <ul>
+                <li>
+                    <label
+                            for="font-AtkinsonHyperlegible"
+                            class="font-AtkinsonHyperlegible"
+                    >
+                        <input
+                                type="radio"
+                                name="font"
+                                id="font-AtkinsonHyperlegible"
+                                value="AtkinsonHyperlegible"
+                        />Atkinson&nbsp;Hyperlegible</label
+                    >
+                </li>
+                <li>
+                    <label
+                            for="font-OpenDyslexicThree"
+                            class="font-OpenDyslexicThree"
+                    >
+                        <input
+                                type="radio"
+                                name="font"
+                                id="font-OpenDyslexicThree"
+                                value="OpenDyslexicThree"
+                        />Open&nbsp;Dyslexic</label
+                    >
+                </li>
+                <li>
+                    <label for="font-SylexiadSans" class="font-SylexiadSans">
+                        <input
+                                type="radio"
+                                name="font"
+                                id="font-SylexiadSans"
+                                value="SylexiadSans"
+                        />Sylexiad&nbsp;Sans</label
+                    >
+                </li>
+                <li>
+                    <label for="font-Ubuntu" class="font-Ubuntu">
+                        <input
+                                type="radio"
+                                name="font"
+                                id="font-Ubuntu"
+                                value="Ubuntu"
+                                checked
+                        />Ubuntu</label
+                    >
+                </li>
+                <li>
+                    <label for="font-serif" class="font-serif"
+                    ><input
+                            type="radio"
+                            name="font"
+                            id="font-serif"
+                            value="serif"
+                    />serif</label
+                    >
+                </li>
+                <li>
+                    <label for="font-sans" class="font-sans">
+                        <input
+                                type="radio"
+                                name="font"
+                                id="font-sans"
+                                value="sans"
+                                checked
+                        />sans-serif</label
+                    >
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset class="display-none" id="background-selection">
+            <legend class="font-Ubuntu">Hintergrund</legend>
+            <ul>
+                <li>
+                    <label
+                            for="background-grid"
+                    >
+                        <input
+                                type="checkbox"
+                                name="background-grid"
+                                id="background-grid"
+                                checked
+                        />Linien</label
+                    >
+                </li>
+                <li>
+                    <label
+                            for="background-blobs"
+                    >
+                        <input
+                                type="checkbox"
+                                name="background-blobs"
+                                id="background-blobs"
+                                checked
+                        />Blobs</label
+                    >
+                </li>
+            </ul>
+        </fieldset>
+    </div>
+    <a href="/" tabindex="-1">
+        <h1>
+            Crowdprinter
+        </h1>
+    </a>
+    <div class="menu-bar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url 'info' %}">Info</a></li>
+            <li><a href="{% url 'faq' %}">FAQ</a></li>
+            {% if user.is_authenticated %}
+                <li style="float:right"><a href="{% url 'account_logout' %}">Logout</a></li>
+                <li style="float:right"><a href="{% url 'my_printattempts' %}">Drucke</a></li>
+            {% else %}
+                <li style="float:right"><a href="{% url 'account_login' %}">Login</a></li>
+                <li style="float:right"><a href="{% url 'account_signup' %}">Register</a></li>
+            {% endif %}
+            {% if user.is_superuser %}
+                <li style="float:right"><a href="{% url 'printjob_create_text' %}">Create Text Job</a></li>
+                <li style="float:right"><a href="{% url 'printjob_create_stl' %}">Create STL Job</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>

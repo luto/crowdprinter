@@ -1,18 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>your parts</h1>
+    <h1>Deine Drucke</h1>
 
-<h2>still running</h2>
-<ul>
-    {% for a in running_attempts %}
-    <li><a href="{% url 'printjob_detail' slug=a.job.slug %}">{{ a.job.slug }}</a>, started on {{ a.started }}</li>
-    {% endfor %}
-</ul>
+    <div class="printjoblist">
+    <div>
+        <h2>Laufend</h2>
+        <table>
+            <tr>
+                <th>Bild</th>
+                <th>Name</th>
+                <th>Datum</th>
+            <tr>
+                {% for attempt in running_attempts %}
+                    <tr>
+                        <td><img src="{% url 'printjob_render' slug=attempt.job.slug %}"
+                                 alt="3D Render des {{ attempt.job.slug }}.stl"></td>
+                        <td><a href="{% url 'printjob_detail' slug=attempt.job.slug %}">{{ attempt.job.slug }}</a></td>
+                        <td>{{ attempt.started }}</td>
+                    </tr>
+                {% endfor %}
 
-<h2>finished</h2>
-{% for a in finished_attempts %}
-{{ a.job.slug }},
-{% endfor %}
+        </table>
+    </div>
+    <div>
+        <h2>Fertig</h2>
+        <table>
+            <tr>
+                <th>Bild</th>
+                <th>Name</th>
+                <th>Datum</th>
+            <tr>
+                {% for attempt in finished_attempts %}
+                    <tr>
+                        <td><img src="{% url 'printjob_render' slug=attempt.job.slug %}"
+                                 alt="3D Render des {{ attempt.job.slug }}.stl"></td>
+                        <td><a href="{% url 'printjob_detail' slug=attempt.job.slug %}">{{ attempt.job.slug }}</a></td>
+                        <td>{{ attempt.started }}</td>
+                    </tr>
+                {% endfor %}
+        </table>
+    </div>
 
 {% endblock %}
