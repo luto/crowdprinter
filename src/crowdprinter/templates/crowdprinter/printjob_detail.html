@@ -9,7 +9,7 @@
             {% if request.user in job.attempting_users %}
                 <h1>Drucke dieses Teil</h1>
                 <p>Auf gehts!</p>
-                <p>Information zum Drucken und Beispiele findest du im <a href="{% url 'faq' %}">FAQ</a>.</p>
+                <p>Information zum Drucken und Beispiele findest du hier: <a href="{% url 'info' %}">Info</a></p>
                 <div class="buttons">
                     <form action="{% url 'printjob_done' slug=job.slug %}" method="POST" class="cell small-6 medium-2">
                         {% csrf_token %}
