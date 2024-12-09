@@ -40,6 +40,10 @@
 	padding: 1.5em 1em;
 }
 
+.main img{
+	max-width: 100%;
+}
+
 .printjobs {
 	display: flex;
 	flex-wrap: wrap;
