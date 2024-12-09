@@ -1,10 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 
 from .models import PrintAttempt
 from .models import Printer
 from .models import PrintJob
 from .models import PrintJobFile
+from .models import User
 
 
 @admin.register(Printer)
@@ -61,3 +63,8 @@ class PrintAttemptAdmin(admin.ModelAdmin):
 
     job_link.admin_order_field = "job"
     job_link.short_description = "job"
+
+
+@admin.register(User)
+class UserAdmin(UserAdmin):
+    pass
