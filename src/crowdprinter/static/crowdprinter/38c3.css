@@ -156,6 +156,12 @@
 	background-color: #FF5053;
 }
 
+.icon {
+	width: 32px;
+	height: 32px;
+	filter: invert(12%) sepia(16%) saturate(5587%) hue-rotate(241deg) brightness(95%) contrast(108%);
+}
+
 @media (prefers-color-scheme: dark) {
 	.progressbar progress {
 		background-color: #261A66;
@@ -172,5 +178,11 @@
 
 	.progressbar progress::-moz-progress-bar {
 		background-color: #FF5053;
+	}
+
+	.icon {
+		width: 32px;
+		height: 32px;
+		filter: invert(40%) sepia(22%) saturate(4663%) hue-rotate(332deg) brightness(112%) contrast(101%);
 	}
 }

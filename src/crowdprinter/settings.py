@@ -31,7 +31,12 @@ except ModuleNotFoundError as e:
     raise
 
 # Check for missing required configuration parameters
-for parameter in ("ALLOWED_HOSTS", "DATABASE", "SECRET_KEY"):
+for parameter in (
+    "ALLOWED_HOSTS",
+    "DATABASE",
+    "SECRET_KEY",
+    "CROWDPRINTER_EXTERNAL_URL",
+):
     if not hasattr(configuration, parameter):
         raise ImproperlyConfigured(
             f"Required parameter {parameter} is missing from configuration."
@@ -47,6 +52,7 @@ DATABASES = {"default": getattr(configuration, "DATABASE")}
 CROWDPRINTER_DEFAULT_MAX_ATTEMPTS = getattr(
     configuration, "CROWDPRINTER_DEFAULT_MAX_ATTEMPTS", 3
 )
+CROWDPRINTER_EXTERNAL_URL = getattr(configuration, "CROWDPRINTER_EXTERNAL_URL")
 
 # Mail
 EMAIL_BACKEND = getattr(
@@ -140,10 +146,16 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "crowdprinter.context_processors.add_header_footer_stls",
+                "django_settings_export.settings_export",
             ],
         },
     },
 ]
+
+SETTINGS_EXPORT = [
+    "CROWDPRINTER_EXTERNAL_URL",
+]
+
 
 WSGI_APPLICATION = "crowdprinter.wsgi.application"
 # Database

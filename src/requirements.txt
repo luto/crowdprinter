@@ -1,5 +1,6 @@
-django==5.1.2
+django==5.1.4
 django-allauth==65.1.0
 django-prometheus==2.3.1
+django-settings-export==1.2.1
 psycopg==3.2.3
 whitenoise==6.7.0

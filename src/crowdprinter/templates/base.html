@@ -14,6 +14,9 @@
                 {% block content %}{% endblock %}
             </div>
             <footer>
+                <a rel="me" href="https://chaos.social/@c3tactile"><img class="icon" src="{% static 'crowdprinter/38c3/icons/32/logo--mastodon.svg' %}" alt="Link zu Mastodon"></a>
+                <a rel="me" href="https://github.com/luto/crowdprinter/"><img class="icon" src="{% static 'crowdprinter/38c3/icons/32/logo--github.svg' %}" alt="Link zu Mastodon"></a>
+                <br>
                 <a href="{% url 'inprint' %}">Impressum</a> - <a href="{% url 'dataprotection' %}">Datenschutz</a>{% if user.is_staff %} - <a href="/admin">Admin</a>{% endif %}
             </footer>
         </div>

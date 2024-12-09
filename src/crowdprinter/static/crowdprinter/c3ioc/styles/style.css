@@ -300,6 +300,10 @@ ul {
 
 footer {
   background-color: #e2e2e2;
+  border-width: 3px 0 0 0;
+  border-style: solid;
+  -o-border-image: linear-gradient(to right, #6A5FDB, #29114C) 100% 1;
+  border-image: linear-gradient(to right, #6A5FDB, #29114C) 100% 1;
   text-align: center;
   padding: 1em;
 }
