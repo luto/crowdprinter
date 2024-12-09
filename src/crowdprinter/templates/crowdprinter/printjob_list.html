@@ -12,7 +12,7 @@
     </div>
     <div class="progressbar">
         <label for="print_progress">{{ progress_percent }}% vollständig</label>
-        <progress id="print_progress" value="{{ progress_percent }}" max="100">{{ progress_percent }}%</progress>
+        <progress id="print_progress" value="{{ done_count }}" max="{{ all_count }}">{{ progress_percent }}%</progress>
     </div>
     <div class="printjobs">
         {% for job in jobs %}

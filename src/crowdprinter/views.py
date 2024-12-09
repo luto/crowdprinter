@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files.base import ContentFile
 from django.db import transaction
+from django.db.models import Sum
 from django.http import FileResponse
 from django.http import Http404
 from django.http import HttpResponseRedirect
@@ -43,9 +44,15 @@ class PrintJobListView(ListView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        all_count = models.PrintJob.objects.count()
-        done_count = models.PrintJob.objects.filter(finished=True).count()
-        context["progress_percent"] = math.floor((done_count / max(1, all_count)) * 100)
+        all_count = models.PrintJob.objects.aggregate(Sum("count_needed"))[
+            "count_needed__sum"
+        ]
+        done_count = models.PrintAttempt.objects.filter(finished=True).count()
+        context["all_count"] = all_count
+        context["done_count"] = done_count
+        context["progress_percent"] = math.floor(
+            (done_count / max(1, all_count, done_count)) * 100
+        )
         return context
 
     def get_queryset(self):
