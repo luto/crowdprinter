@@ -88,5 +88,11 @@ class PrintAttempt(models.Model):
 
 
 class User(AbstractUser):
+    max_attempts = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text=f"Maximale anzahl gleichzeitiger Drucke. 0 für unbegrenzt, leer = Default({settings.CROWDPRINTER_DEFAULT_MAX_ATTEMPTS})",
+    )
+
     class Meta:
         db_table = "auth_user"

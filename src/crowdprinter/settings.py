@@ -43,6 +43,11 @@ ALLOWED_HOSTS = getattr(configuration, "ALLOWED_HOSTS")
 DOWNLOAD_FILE_PREFIX = getattr(configuration, "DOWNLOAD_FILE_PREFIX", "")
 DATABASES = {"default": getattr(configuration, "DATABASE")}
 
+# Crowdprinter specific configuration
+CROWDPRINTER_DEFAULT_MAX_ATTEMPTS = getattr(
+    configuration, "CROWDPRINTER_DEFAULT_MAX_ATTEMPTS", 3
+)
+
 # Mail
 EMAIL_BACKEND = getattr(
     configuration, "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"

@@ -67,4 +67,4 @@ class PrintAttemptAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    pass
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("max_attempts",)}),)
