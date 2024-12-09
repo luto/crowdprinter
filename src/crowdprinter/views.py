@@ -166,10 +166,13 @@ class MyPrintAttempts(ListView):
         return super().get_queryset().filter(user=self.request.user)
 
 
-max_jobs = 3
-
-
 def can_take_job(user, job):
+    if user.max_attempts is None:
+        max_jobs = settings.CROWDPRINTER_DEFAULT_MAX_ATTEMPTS
+    else:
+        max_jobs = user.max_attempts
+    if user.max_attempts == 0:
+        return user not in job.attempting_users
     return (
         models.PrintAttempt.objects.filter(user=user, ended__isnull=True).count()
         < max_jobs
@@ -184,6 +187,10 @@ class PrintJobDetailView(DetailView):
         context = super().get_context_data()
         if self.request.user.is_authenticated:
             context["can_take_job"] = can_take_job(self.request.user, self.object)
+        if self.request.user.max_attempts is None:
+            max_jobs = settings.CROWDPRINTER_DEFAULT_MAX_ATTEMPTS
+        else:
+            max_jobs = self.request.user.max_attempts
         context["max_jobs"] = max_jobs
         return context
 
