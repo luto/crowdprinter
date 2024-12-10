@@ -42,6 +42,7 @@
         abholen.
     </p>
     <h2>Druckanleitung</h2>
+	<h3>Farben</h3>
     <p>
         Die Schilder müssen nicht nur ertastbar sondern auch lesbar sein. Daher
         ist es wichtig die Basis aus dunklem Filament (schwarz, dunkelgrau,
@@ -49,7 +50,26 @@
         drucken. Wie zum Beispiel in diesem Bild:<br><br>
 		<img src="{% static 'crowdprinter/img/sample_sign.jpg' %}" alt="Ein Schild
 		mit dem Text Bottledrop in Profilschrift und Braille liegt auf dem Bett eines
-		3D-Druckers. Es hat einen grauen Hintergrund und die Schrift ist weiß"></img><br><br>
-		Die Grundplatte ist 1mm dick, darüber kann der Farbwechsel stattfinden.
+		3D-Druckers. Es hat einen grauen Hintergrund und die Schrift ist weiß"></img>
+	</p>
+	<h3>Filamentwechsel</h3>
+    <p>
+		Die Grundplatte ist 1mm dick, darüber kann der Farbwechsel stattfinden.<br><br>
+		So funktioniert der Farbwechsel in den einzelnen Slicern:
+	    <ul>
+			<li>Prusa Slicer: Siehe Infos zu <a href="https://help.prusa3d.com/article/color-change_1687">
+			color change in der Prusa Knowledge base</a>. Der Slider muss dabei auf die Höhe von 1.2mm gestellt sein.</li>
+			<li>Cura: Hier muss eine Pause nach 1mm Druckhöhe eingefügt werden. Der 
+			<a href="https://all3dp.com/2/cura-pause-at-height-how-to-do-it/">Artikel auf All3DP.com</a>
+			 erklärt welche Möglichkeiten es dafür gibt. In der Pause kannst du das Filament manuell wechseln.</li>
+			<li>Bambu Studio: Auch hier musst du eine Pause bei 1.2mm Druckhöhe machen und das Filament händisch wechseln.
+			Das <a href="https://forum.bambulab.com/t/change-filament-at-layer-height/7954">
+			Bambulab Community Forum hat eine Erklärung wie das funktioniert.</a></li>
+		</ul>
+	</p>
+	<h3>Material</h3>
+    <p>
+		Für die Schilder bevorzugen wir PLA als Material. PET-G ist aber auch in Ordnung,
+		solange der Druck nicht zu viele Fäden (Stringing) hat.
     </p>
 {% endblock %}
