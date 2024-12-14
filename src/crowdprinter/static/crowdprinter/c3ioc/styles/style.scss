@@ -175,9 +175,16 @@ footer {
 }
 .skiplink {
   position: absolute;
-  bottom: -2em;
-  right: 1em;
+  -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  box-sizing: border-box;
 }
+
+.skiplink:focus {
+  -webkit-clip-path: none;
+  clip-path: none;
+}
+
 /* Utility classes */
 .display-none {
   display: none;
@@ -264,15 +271,6 @@ footer {
   }
   header {
     background-size: 100%;
-  }
-  .skiplink {
-    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);
-    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
-    box-sizing: border-box;
-  }
-  .skiplink:focus {
-    -webkit-clip-path: none;
-    clip-path: none;
   }
 
   #accessibility-options {
