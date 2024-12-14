@@ -44,18 +44,29 @@ class PrintJobAdmin(admin.ModelAdmin):
         PrintJobFileInline,
         PrintAttemptInline,
     ]
+    list_display = (
+        "slug",
+        "count_needed",
+    )
 
 
 @admin.register(PrintAttempt)
 class PrintAttemptAdmin(admin.ModelAdmin):
     model = PrintAttempt
     list_display = (
+        "id",
         "user",
         "job_link",
         "started",
         "ended",
+        "finished",
+        "dropped_off"
     )
-    list_filter = ["user"]
+    list_filter = [
+        ("finished", admin.BooleanFieldListFilter),
+        ("dropped_off", admin.BooleanFieldListFilter)
+    ]
+
 
     def job_link(self, obj):
         url = f"/admin/crowdprinter/printjob/{obj.job_id}/change/"

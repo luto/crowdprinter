@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <h1>Deine Drucke</h1>
@@ -29,14 +30,19 @@
             <tr>
                 <th>Bild</th>
                 <th>Name</th>
-                <th>Datum</th>
+                <th>Abgegeben</th>
             <tr>
                 {% for attempt in finished_attempts %}
                     <tr>
                         <td><img src="{% url 'printjob_render' slug=attempt.job.slug %}"
                                  alt="3D Render des {{ attempt.job.slug }}.stl"></td>
                         <td><a href="{% url 'printjob_detail' slug=attempt.job.slug %}">{{ attempt.job.slug }}</a></td>
-                        <td>{{ attempt.started }}</td>
+                        <td>{% if attempt.dropped_off %}
+                            <img class="icon" src="{% static 'crowdprinter/38c3/icons/32/checkmark--filled.svg' %}" alt="Ja">
+                            {% else %}
+                            <img class="icon" src="{% static 'crowdprinter/38c3/icons/32/close--filled.svg' %}" alt="Nein">
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
         </table>
