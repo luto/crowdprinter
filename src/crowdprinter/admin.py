@@ -64,7 +64,8 @@ class PrintAttemptAdmin(admin.ModelAdmin):
     )
     list_filter = [
         ("finished", admin.BooleanFieldListFilter),
-        ("dropped_off", admin.BooleanFieldListFilter)
+        ("dropped_off", admin.BooleanFieldListFilter),
+        ("user", admin.RelatedFieldListFilter)
     ]
 
 
@@ -78,4 +79,4 @@ class PrintAttemptAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("max_attempts",)}),)
+    fieldsets = UserAdmin.fieldsets + (("Crowdprinter", {"fields": ("max_attempts","allow_messages_during_event_from_humans","allow_messages_after_event_from_humans")}),)
