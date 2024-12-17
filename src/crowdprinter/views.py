@@ -192,12 +192,11 @@ class PrintJobDetailView(DetailView):
 
     def get_context_data(self, object):
         context = super().get_context_data()
+        max_jobs = settings.CROWDPRINTER_DEFAULT_MAX_ATTEMPTS
         if self.request.user.is_authenticated:
             context["can_take_job"] = can_take_job(self.request.user, self.object)
-        if self.request.user.max_attempts is None:
-            max_jobs = settings.CROWDPRINTER_DEFAULT_MAX_ATTEMPTS
-        else:
-            max_jobs = self.request.user.max_attempts
+            if self.request.user.max_attempts is not None:
+                max_jobs = self.request.user.max_attempts
         context["max_jobs"] = max_jobs
         return context
 
