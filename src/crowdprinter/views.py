@@ -154,7 +154,7 @@ class PrintJobStlCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateV
     success_message = "Job %(slug)s was created successfully"
 
 
-class MyPrintAttempts(ListView):
+class MyPrintAttempts(LoginRequiredMixin, ListView):
     model = models.PrintAttempt
     template_name = "crowdprinter/myprintattempts.html"
     ordering = ["ended"]
