@@ -93,6 +93,14 @@ class User(AbstractUser):
         blank=True,
         help_text=f"Maximale anzahl gleichzeitiger Drucke. 0 für unbegrenzt, leer = Default({settings.CROWDPRINTER_DEFAULT_MAX_ATTEMPTS})",
     )
+    allow_messages_during_event_from_humans = models.BooleanField(null=True,
+                                                     default=None,
+                                                     help_text="Das c3tactile Team darf dich *während* dem Event kontaktieren")
+
+    allow_messages_after_event_from_humans = models.BooleanField(null=True,
+                                                     default=None,
+                                                     help_text="Das c3tactile Team darf dich per E-Mail für über zukünftige Events informieren")
+
 
     class Meta:
         db_table = "auth_user"

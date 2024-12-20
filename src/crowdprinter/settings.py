@@ -73,6 +73,10 @@ ACCOUNT_LOGIN_ON_PASSWORD_RESET = getattr(
 )
 LOGIN_REDIRECT_URL = getattr(configuration, "LOGIN_REDIRECT_URL", "/")
 
+ACCOUNT_FORMS = {
+    'signup': 'crowdprinter.views.CrowdprinterSignupForm',
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 LANGUAGE_CODE = getattr(configuration, "LANGUAGE_CODE", "en-us")

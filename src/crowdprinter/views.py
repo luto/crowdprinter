@@ -5,6 +5,7 @@ import tempfile
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -25,6 +26,7 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic.base import View
+from allauth.account.forms import SignupForm
 
 import crowdprinter.models as models
 import stl_generator
@@ -299,6 +301,23 @@ class ServeJobFileView(ServeFileView):
             return printjobfile.file_gcode.path
         else:
             raise Http404()
+
+
+class CrowdprinterSignupForm(SignupForm):
+    def __init__(self,*args, **kwargs):
+        super(CrowdprinterSignupForm, self).__init__(*args, **kwargs)
+        self.fields['allow_messages_during_event_from_humans'] = forms.BooleanField(label="Das c3tactile Team darf mir auf dem Event Mails schicken", required=False)
+        self.fields['allow_messages_after_event_from_humans'] = forms.BooleanField(label="Das c3tactile Team darf mir Mail über zukünftige Events schicken", required=False)
+
+    def save(self, request):
+
+        # Ensure you call the parent class's save.
+        # .save() returns a User object.
+        user = super(CrowdprinterSignupForm, self).save(request)
+        user.allow_messages_during_event_from_humans = self.cleaned_data["allow_messages_during_event_from_humans"]
+        user.allow_messages_after_event_from_humans = self.cleaned_data["allow_messages_after_event_from_humans"]
+        user.save()
+        return user
 
 
 class InfoView(TemplateView):
