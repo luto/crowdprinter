@@ -53,7 +53,7 @@ class PrintJobListView(ListView):
         context["all_count"] = all_count
         context["done_count"] = done_count
         context["progress_percent"] = math.floor(
-            (done_count / max(1, done_count)) * 100
+            (done_count / max(1, all_count)) * 100
         )
         return context
 
