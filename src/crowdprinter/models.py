@@ -46,6 +46,17 @@ class PrintJob(models.Model):
         help_text="Zahl von 0 bis 100. Jobs mit kleinen Zahlen werden weiter oben angezeigt.",
     )
     count_needed = models.PositiveIntegerField(default=1)
+    public = models.BooleanField(
+        default=False,
+        help_text="Auf der Startseite anzeigen, mit dem Link wird es immer angezeigt.")
+    comment = models.TextField(
+        default='',
+        blank=True,
+        help_text="Öffentlicher Kommentar")
+    internal_comment = models.TextField(
+        default='',
+        blank=True,
+        help_text="Interner Kommentar")
 
     objects = PrintJobManager()
 

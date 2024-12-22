@@ -8,6 +8,9 @@
         <div class="info">
             {% if request.user in job.attempting_users %}
                 <h1>Drucke dieses Teil</h1>
+                {% if job.comment != '' %}
+                    <p>{{ job.comment }}</p>
+                {% endif %}
                 <p>Auf gehts!</p>
                 <p>Information zum Drucken und Beispiele findest du hier: <a href="{% url 'info' %}">Info</a></p>
                 <div class="buttons">
@@ -55,6 +58,9 @@
                 <p>Es wurden bereits genug gedruckt, schau doch mal hier: <a href="/">Home</a></p>
             {% else %}
                 <h1>Mehr Drucke benötigt</h1>
+                {% if job.comment != '' %}
+                    <p>{{ job.comment }}</p>
+                {% endif %}
                 {% if can_take_job %}
                     <form action="{% url 'printjob_take' slug=job.slug %}" method="POST">
                         {% csrf_token %}

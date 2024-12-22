@@ -46,19 +46,19 @@ class PrintJobListView(ListView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        all_count = models.PrintJob.objects.aggregate(Sum("count_needed"))[
+        all_count = models.PrintJob.objects.filter(public=True).aggregate(Sum("count_needed"))[
             "count_needed__sum"
         ]
-        done_count = models.PrintAttempt.objects.filter(finished=True).count()
+        done_count = models.PrintAttempt.objects.filter(finished=True, job__public=True).count()
         context["all_count"] = all_count
         context["done_count"] = done_count
         context["progress_percent"] = math.floor(
-            (done_count / max(1, all_count, done_count)) * 100
+            (done_count / max(1, done_count)) * 100
         )
         return context
 
     def get_queryset(self):
-        return super().get_queryset().filter(can_attempt=True).order_by("priority", "?")
+        return super().get_queryset().filter(can_attempt=True, public=True).order_by("priority", "?")
 
 
 def make_gcode_files(job):

@@ -47,6 +47,7 @@ class PrintJobAdmin(admin.ModelAdmin):
     list_display = (
         "slug",
         "count_needed",
+        "public"
     )
 
 
