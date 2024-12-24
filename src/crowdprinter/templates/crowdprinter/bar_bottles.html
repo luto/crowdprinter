@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Bar Menu </h1>
+    <p>
+        Scroll (or jump) to <a href="#english">to the English version of bottled drinks available at the bars</a>.
+    </p>
+
+    <h2>Flaschen-Getränke - deutsch</h2>
+    <p>
+      Achtung: Es sind nur Bar-Zahlungen möglich.
+      <ul>
+        <li>Wasser</li>
+        <li>Club Mate</li>
+        <li>Flora Mate</li>
+      </ul> 
+    </p>
+
+    <h2 id="english">Bottled Drinks - english</h2>
+    <p>
+      Attention: Payment is cash only.
+      <ul>
+        <li>Water</li>
+        <li>Club Mate</li>
+        <li>Flora Mate</li>
+      </ul> 
+    </p>
+
+  
+{% endblock %}
